@@ -20,9 +20,7 @@
             --gold: #C5A059;
             --paper-texture: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
-
         * { box-sizing: border-box; }
-
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
             background-color: var(--parchment);
@@ -31,13 +29,9 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-
         .font-display { font-family: 'Playfair Display', serif; }
         .font-mono { font-family: 'IBM Plex Mono', monospace; }
-
-        .paper-texture {
-            position: relative;
-        }
+        .paper-texture { position: relative; }
         .paper-texture::before {
             content: '';
             position: absolute;
@@ -48,30 +42,9 @@
             opacity: 0.4;
         }
         .paper-texture > * { position: relative; z-index: 2; }
-
         .text-bronze { color: var(--bronze); }
         .bg-bronze { background-color: var(--bronze); }
         .border-bronze { border-color: var(--bronze); }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-        }
-        @keyframes float-reverse {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(15px) rotate(-2deg); }
-        }
-        @keyframes drift {
-            0% { transform: translateX(0) translateY(0); }
-            25% { transform: translateX(10px) translateY(-10px); }
-            50% { transform: translateX(-5px) translateY(-15px); }
-            75% { transform: translateX(-10px) translateY(-5px); }
-            100% { transform: translateX(0) translateY(0); }
-        }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-float-reverse { animation: float-reverse 7s ease-in-out infinite; }
-        .animate-drift { animation: drift 20s ease-in-out infinite; }
-
         .timeline-line {
             position: absolute;
             left: 50%;
@@ -80,7 +53,6 @@
             height: 100%;
             background: linear-gradient(to bottom, var(--bronze), var(--stone), var(--bronze));
         }
-
         .timeline-node {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
@@ -94,7 +66,6 @@
             color: white;
             box-shadow: 0 0 0 12px rgba(184, 115, 51, 0.2);
         }
-
         .survey-card {
             background: linear-gradient(135deg, var(--ivory) 0%, var(--parchment) 100%);
             border: 1px solid var(--stone);
@@ -105,7 +76,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08), 0 20px 40px rgba(0,0,0,0.05);
             border-color: var(--bronze-light);
         }
-
         .custom-checkbox {
             appearance: none;
             width: 20px;
@@ -143,23 +113,14 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-
         @media print {
             .no-print { display: none !important; }
-            .print-break { page-break-before: always; }
             body { background: white; }
-            .survey-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
         }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--ivory); }
-        ::-webkit-scrollbar-thumb { background: var(--bronze-light); border-radius: 4px; }
-
         .modal-backdrop {
             backdrop-filter: blur(8px);
             background: rgba(28, 25, 23, 0.6);
         }
-
         .annotation {
             font-family: 'IBM Plex Mono', monospace;
             font-size: 0.7rem;
@@ -167,14 +128,12 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
-
         .cover-title {
             background: linear-gradient(135deg, var(--ink) 0%, var(--sepia) 50%, var(--bronze) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
         .nav-link {
             position: relative;
             overflow: hidden;
@@ -193,1777 +152,488 @@
         .nav-link:hover::after {
             transform: translateX(0);
         }
-
         .indicator-below { color: #B85450; background: rgba(184, 84, 80, 0.08); }
         .indicator-normal { color: #5A8F6E; background: rgba(90, 143, 110, 0.08); }
         .indicator-above { color: var(--bronze); background: rgba(184, 115, 51, 0.08); }
-
-        /* Chart container fix */
-        .chart-container {
-            position: relative;
-            height: 300px;
-            width: 100%;
-        }
+        .chart-container { position: relative; height: 300px; width: 100%; }
     </style>
-<base target="_blank">
 </head>
 <body class="antialiased">
 
-    <nav class="fixed top-0 w-full z-50 bg-[#FDF8F0]/90 backdrop-blur-md border-b border-[#E8E0D4]">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="font-display text-xl tracking-wide text-[#1C1917]">
-                <span class="text-bronze">М</span>онтессори <span class="italic">Книга</span>
-            </div>
-            <div class="hidden md:flex gap-8 text-sm tracking-widest uppercase">
-                <a href="#hero" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Обложка</a>
-                <a href="#about" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Путь</a>
-                <a href="#archive" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Архив 0–3</a>
-                <a href="#dashboard" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Дашборд</a>
-                <a href="#logorhythmics" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Логоритмика</a>
-            </div>
-            <div class="flex gap-3 no-print">
-                <button type="button" onclick="exportToCSV()" class="px-4 py-2 text-xs uppercase tracking-widest border border-[#B87333] text-[#B87333] hover:bg-[#B87333] hover:text-white transition-all rounded-sm">
-                    Excel
-                </button>
-                <button type="button" onclick="window.print()" class="px-4 py-2 text-xs uppercase tracking-widest bg-[#1C1917] text-[#FDF8F0] hover:bg-[#B87333] transition-all rounded-sm">
-                    Печать PDF
-                </button>
-            </div>
+<nav class="fixed top-0 w-full z-50 bg-[#FDF8F0]/90 backdrop-blur-md border-b border-[#E8E0D4]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="font-display text-xl tracking-wide text-[#1C1917]">
+            <span class="text-bronze">М</span>онтессори <span class="italic">студия&nbsp;</span>
         </div>
-    </nav>
-
-    <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-20 left-10 w-32 h-32 bg-[#D4A574]/10 rounded-full animate-float"></div>
-            <div class="absolute top-40 right-20 w-24 h-24 bg-[#8B7355]/10 rounded-full animate-float-reverse"></div>
-            <div class="absolute bottom-32 left-1/4 w-40 h-40 bg-[#B87333]/5 rounded-full animate-drift"></div>
-            <div class="absolute top-1/3 right-1/3 w-20 h-20 border border-[#B87333]/20 rotate-45 animate-float"></div>
-            <div class="absolute top-32 left-[15%] animate-float opacity-20">
-                <svg width="60" height="120" viewBox="0 0 60 120" fill="none">
-                    <rect x="10" y="0" width="40" height="20" rx="2" fill="#B87333"/>
-                    <rect x="8" y="25" width="44" height="20" rx="2" fill="#C4945A"/>
-                    <rect x="6" y="50" width="48" height="20" rx="2" fill="#D4A574"/>
-                    <rect x="4" y="75" width="52" height="20" rx="2" fill="#E8C9A0"/>
-                    <rect x="2" y="100" width="56" height="20" rx="2" fill="#F5DEB3"/>
-                </svg>
-            </div>
-            <div class="absolute bottom-40 right-[10%] animate-float-reverse opacity-15">
-                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-                    <circle cx="40" cy="40" r="35" stroke="#B87333" stroke-width="1" fill="none"/>
-                    <circle cx="40" cy="40" r="25" stroke="#B87333" stroke-width="1" fill="none"/>
-                    <circle cx="40" cy="40" r="15" stroke="#B87333" stroke-width="1" fill="none"/>
-                    <line x1="40" y1="5" x2="40" y2="75" stroke="#B87333" stroke-width="0.5"/>
-                    <line x1="5" y1="40" x2="75" y2="40" stroke="#B87333" stroke-width="0.5"/>
-                </svg>
-            </div>
+        <div class="hidden md:flex gap-8 text-sm tracking-widest uppercase">
+            <a href="#hero" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Обложка</a>
+            <a href="#about" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Путь</a>
+            <a href="#archive" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Архив 0–3</a>
+            <a href="#dashboard" class="nav-link text-[#44403C] hover:text-[#B87333] transition-colors">Дашборд</a>
         </div>
-
-        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <div class="annotation mb-6 tracking-[0.3em]">Коллекционное издание • 2024</div>
-            <h1 class="font-display text-6xl md:text-8xl font-medium mb-4 cover-title leading-tight">
-                Монтессори<br>Книга
-            </h1>
-            <div class="w-24 h-px bg-[#B87333] mx-auto mb-6"></div>
-            <p class="text-2xl md:text-3xl italic text-[#44403C] mb-2 font-light">
-                Ирина Сергеевна Кичигина
-            </p>
-            <p class="text-sm uppercase tracking-[0.2em] text-[#8B7355] mb-12">
-                Педагог Монтессори 0–3 года • Логоритмика • Архив развития
-            </p>
-            <div class="flex justify-center gap-8 text-sm text-[#8B7355]">
-                <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>От рождения до трёх лет</span>
-                <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>Диагностика</span>
-                <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>Ритм, речь, движение</span>
-            </div>
+        <div class="flex gap-3 no-print">
+            <button type="button" onclick="exportToCSV()" class="px-4 py-2 text-xs uppercase tracking-widest border border-[#B87333] text-[#B87333] hover:bg-[#B87333] hover:text-white transition-all rounded-sm">Excel</button>
+            <button type="button" onclick="window.print()" class="px-4 py-2 text-xs uppercase tracking-widest bg-[#1C1917] text-[#FDF8F0] hover:bg-[#B87333] transition-all rounded-sm">Печать PDF</button>
         </div>
+    </div>
+</nav>
 
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6 text-[#B87333]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
+<section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+        <div class="annotation mb-6 tracking-[0.3em]">Коллекционное издание • 2026</div>
+        <blockquote>
+          <h1 class="font-display text-6xl md:text-10xl font-medium mb-4 cover-title leading-tight">Монтессори
+            студия</h1>
+        </blockquote>
+<div class="w-24 h-px bg-[#B87333] mx-auto mb-6"></div>
+        <p class="text-2xl md:text-3xl italic text-[#44403C] mb-2 font-light">Ирина Сергеевна Кичигина</p>
+        <p class="text-sm uppercase tracking-[0.2em] text-[#8B7355] mb-12">Монтессори - Педагог (возраст 0–3) • Учитель - дефектолог • Архив развития</p>
+        <div class="flex justify-center gap-8 text-sm text-[#8B7355]">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>От рождения до трёх лет</span>
+            <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>Диагностика</span>
+            <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#B87333] rounded-full"></span>Радар развития</span>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="about" class="py-24 px-6 relative">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-12 gap-12 items-start">
-                <div class="md:col-span-4 space-y-8">
-                    <div class="sticky top-24">
-                        <div class="annotation mb-4">Глава первая</div>
-                        <h2 class="font-display text-4xl mb-6 leading-tight">От Учителя<br>начальных классов<br><span class="italic text-[#B87333]">к Монтессори</span></h2>
-                        <div class="w-16 h-px bg-[#B87333] mb-6"></div>
-                        <p class="text-sm text-[#8B7355] leading-relaxed">
-                            Эта страница — не просто портфолио педагога. Это архив пути, пройденного через классическое образование к глубинному пониманию потребностей ребёнка от рождения до трёх лет.
-                        </p>
-                        <div class="mt-8 p-6 bg-[#F5F0E6] border-l-2 border-[#B87333]">
-                            <p class="font-mono text-xs text-[#8B7355] uppercase tracking-wider mb-2">Кураторская запись</p>
-                            <p class="italic text-[#44403C]">«Каждый предмет, каждая игрушка, каждый временной промежуток здесь отобраны и оформлены с точностью музейной экспозиции.»</p>
-                        </div>
+<section id="about" class="py-24 px-6 relative">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-12 gap-12 items-start">
+            <div class="md:col-span-4 space-y-8">
+                <div class="sticky top-24">
+                    <div class="annotation mb-4">Глава первая</div>
+                    <h2 class="font-display text-4xl mb-6 leading-tight">От Учителя<br>начальных классов<br><span class="italic text-[#B87333]">к Монтессори</span></h2>
+                    <div class="w-16 h-px bg-[#B87333] mb-6"></div>
+                    <p class="text-sm text-[#8B7355] leading-relaxed">Эта страница — не просто портфолио педагога. Это архив пути, пройденного через классическое образование к глубинному пониманию потребностей ребёнка от рождения до трёх лет.</p>
+                    <div class="mt-8 p-6 bg-[#F5F0E6] border-l-2 border-[#B87333]">
+                        <p class="font-mono text-xs text-[#8B7355] uppercase tracking-wider mb-2">Кураторская запись</p>
+                        <p class="italic text-[#44403C]">«Каждый предмет, каждое пособие, каждый временной промежуток здесь соответствуют возрастным, физиологическим и психологическим особенностям раннего развития.»</p>
                     </div>
                 </div>
-
-              <div class="md:col-span-8 space-y-12">
-                    <div class="prose prose-lg max-w-none text-[#44403C]">
-                        <p class="text-xl leading-relaxed first-letter:text-5xl first-letter:font-display first-letter:text-[#B87333] first-letter:float-left first-letter:mr-3 first-letter:mt-[-4px]">
-                            Педагогика Монтессори — это не методика, это философия внимательного наблюдения. 
-                            Ирина Сергеевна Кичигина прошла путь от традиционной школы к глубинному пониманию 
-                            законов развития малыша в самые формативные годы жизни.
-                        </p>
-                        <p>
-                            Каждый развивающий материал, каждая временная рамка и каждая диагностическая карта 
-                            в этой книге отражают не только профессиональный рост педагога, но и культурный контекст 
-                            раннего развития — интеллектуальный, эстетический и захватывающий.
-                        </p>
-                    </div>
-
+            </div>
+            <div class="md:col-span-8 space-y-12">
+                <div class="prose prose-lg max-w-none text-[#44403C]">
+                    <p class="text-xl leading-relaxed first-letter:text-5xl first-letter:font-display first-letter:text-[#B87333] first-letter:float-left first-letter:mr-3 first-letter:mt-[-4px]">Педагогика Монтессори — это   философия внимательного наблюдения. Ирина Сергеевна Кичигина прошла путь от традиционной школы к глубинному пониманию законов развития малыша в самые важные ранние годы жизни.</p>
+                    <p>Каждый развивающий материал, каждый временной отрезок и каждая диагностическая карта в этой книге отражают не только профессиональный рост педагога, но и ценный контекст раннего развития — интеллектуальный, эстетический и гуманистический.</p>
+                </div>
                 <div class="grid grid-cols-3 gap-6">
-                        <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]">
-                            <div class="font-display text-3xl text-[#B87333] mb-2">0–3</div>
-                            <div class="text-xs uppercase tracking-wider text-[#8B7355]">Года жизни<br>фокус внимания</div>
-                        </div>
-                        <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]">
-                            <div class="font-display text-3xl text-[#B87333] mb-2">6</div>
-                            <div class="text-xs uppercase tracking-wider text-[#8B7355]">Сфер<br>развития</div>
-                        </div>
-                        <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]">
-                            <div class="font-display text-3xl text-[#B87333] mb-2">36</div>
-                            <div class="text-xs uppercase tracking-wider text-[#8B7355]">Месяцев<br>архива</div>
-                        </div>
-                  </div>
-</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="archive" class="py-24 px-6 bg-[#F5F0E6] relative paper-texture">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <div class="annotation mb-4">Архив развития</div>
-                <h2 class="font-display text-5xl mb-4">От рождения до трёх лет</h2>
-                <p class="text-[#8B7355] max-w-2xl mx-auto">
-                    Интерактивная диаграмма развития. Выберите возрастной период, чтобы открыть диагностический опрос 
-                    по шести сферам: моторика, сенсорика, речь, познание, социальность, самообслуживание.
-                </p>
-            </div>
-
-            <div class="relative">
-                <div class="timeline-line"></div>
-                <div id="timeline-container" class="space-y-12 relative py-8">
-                    <!-- Generated by JS -->
+                    <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]"><div class="font-display text-3xl text-[#B87333] mb-2">0–3</div><div class="text-xs uppercase tracking-wider text-[#8B7355]">Года жизни<br>фокус внимания</div></div>
+                    <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]"><div class="font-display text-3xl text-[#B87333] mb-2">6</div><div class="text-xs uppercase tracking-wider text-[#8B7355]">Сфер<br>развития</div></div>
+                    <div class="text-center p-6 border border-[#E8E0D4] bg-[#FDF8F0]"><div class="font-display text-3xl text-[#B87333] mb-2">36</div><div class="text-xs uppercase tracking-wider text-[#8B7355]">Месяцев<br>архива</div></div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="survey-modal" class="fixed inset-0 z-[100] hidden">
-        <div class="modal-backdrop absolute inset-0" onclick="closeSurvey()"></div>
-        <div class="absolute inset-4 md:inset-12 bg-[#FDF8F0] overflow-auto shadow-2xl border border-[#E8E0D4]">
-            <div class="sticky top-0 bg-[#FDF8F0]/95 backdrop-blur border-b border-[#E8E0D4] px-6 py-4 flex justify-between items-center z-10">
-                <div>
-                    <div class="annotation text-xs">Диагностический опрос</div>
-                    <h3 id="survey-title" class="font-display text-2xl"></h3>
+                <div class="bg-[#F5F0E6] p-8 border border-[#E8E0D4]">
+                    <div class="annotation mb-4">Философия наблюдения</div>
+                    <div class="grid md:grid-cols-3 gap-6 text-center">
+                        <div class="p-6"><div class="font-display text-4xl text-[#B87333] mb-3">1</div><h4 class="font-display text-lg mb-2">Подготовленная среда</h4><p class="text-sm text-[#8B7355]">Каждый материал отобран по принципу самообучения через прикосновение</p></div>
+                        <div class="p-6 border-l border-r border-[#E8E0D4]"><div class="font-display text-4xl text-[#B87333] mb-3">2</div><h4 class="font-display text-lg mb-2">Свобода выбора</h4><p class="text-sm text-[#8B7355]">Ребёнок сам решает, чем заниматься, в пределах структурированного пространства</p></div>
+                        <div class="p-6"><div class="font-display text-4xl text-[#B87333] mb-3">3</div><h4 class="font-display text-lg mb-2">Уважение к темпу</h4><p class="text-sm text-[#8B7355]">Никакого форсирования — только внимательное следование за интересами малыша</p></div>
+                    </div>
                 </div>
-                <div class="flex gap-3 no-print">
-                    <button type="button" onclick="saveSurvey()" class="px-6 py-2 bg-[#B87333] text-white text-sm uppercase tracking-wider hover:bg-[#9A5F2A] transition-colors">
-                        Рассчитать и сохранить
-                    </button>
-                    <button type="button" onclick="closeSurvey()" class="w-10 h-10 border border-[#E8E0D4] flex items-center justify-center hover:border-[#B87333] hover:text-[#B87333] transition-colors">
-                        ✕
-                    </button>
-                </div>
-            </div>
-            <div id="survey-content" class="p-6 md:p-12 max-w-4xl mx-auto">
-                <!-- Generated by JS -->
-            </div>
-            <div class="sticky bottom-0 bg-[#FDF8F0] border-t border-[#E8E0D4] p-6 flex justify-end no-print">
-                <button type="button" onclick="saveSurvey()" class="px-8 py-3 bg-[#1C1917] text-white text-sm uppercase tracking-wider hover:bg-[#B87333] transition-colors">
-                    Сохранить и рассчитать
-                </button>
             </div>
         </div>
     </div>
+</section>
 
-    <section id="dashboard" class="py-24 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-[#E8E0D4] pb-6">
-                <div>
-                    <div class="annotation mb-2">Аналитика</div>
-                    <h2 class="font-display text-4xl">Дашборд развития</h2>
-                </div>
-                <div class="text-right mt-4 md:mt-0">
-                    <div class="text-sm text-[#8B7355]">Данные обновляются в реальном времени</div>
-                    <div class="font-mono text-xs text-[#B87333] mt-1" id="last-updated">—</div>
-                </div>
-            </div>
+<section id="archive" class="py-24 px-6 bg-[#F5F0E6] relative paper-texture">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <div class="annotation mb-4">Архив развития</div>
+            <h2 class="font-display text-5xl mb-4">От рождения до трёх лет</h2>
+            <p class="text-[#8B7355] max-w-2xl mx-auto">Интерактивная диаграмма развития. Выберите возрастной период, чтобы открыть диагностический опрос по шести сферам: моторика, сенсорика, речь, познание, социальность, самообслуживание.</p>
+        </div>
+        <div class="relative">
+            <div class="timeline-line"></div>
+            <div id="timeline-container" class="space-y-12 relative py-8"></div>
+        </div>
+    </div>
+</section>
 
-            <div class="grid md:grid-cols-3 gap-6 mb-12">
-                <div class="md:col-span-3 grid grid-cols-2 md:grid-cols-6 gap-4">
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Моторика</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-motor">0%</div>
-                        <div class="text-xs mt-1" id="dash-motor-status">—</div>
-                    </div>
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Сенсорика</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-sensory">0%</div>
-                        <div class="text-xs mt-1" id="dash-sensory-status">—</div>
-                    </div>
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Речь</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-speech">0%</div>
-                        <div class="text-xs mt-1" id="dash-speech-status">—</div>
-                    </div>
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Познание</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-cognitive">0%</div>
-                        <div class="text-xs mt-1" id="dash-cognitive-status">—</div>
-                    </div>
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Социальность</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-social">0%</div>
-                        <div class="text-xs mt-1" id="dash-social-status">—</div>
-                    </div>
-                    <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center">
-                        <div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Самообслуживание</div>
-                        <div class="font-display text-3xl text-[#B87333]" id="dash-selfcare">0%</div>
-                        <div class="text-xs mt-1" id="dash-selfcare-status">—</div>
-                    </div>
-                </div>
-
-                <div class="md:col-span-2 bg-[#F5F0E6] border border-[#E8E0D4] p-6">
-                    <div class="annotation mb-4">Радар компетенций</div>
-                    <div class="chart-container">
-                        <canvas id="radarChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-6">
-                    <div class="annotation mb-4">Рекомендации</div>
-                    <div id="recommendations-list" class="space-y-3 text-sm">
-                        <div class="text-[#8B7355] italic">Заполните диагностические опросы, чтобы получить персональные рекомендации.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-[#FDF8F0] border border-[#E8E0D4] overflow-hidden">
-                <div class="px-6 py-4 border-b border-[#E8E0D4] bg-[#F5F0E6] flex justify-between items-center">
-                    <div class="annotation">Детализация по периодам</div>
-                    <button type="button" onclick="clearAllData()" class="text-xs text-[#B85450] hover:underline no-print">Сбросить данные</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr class="border-b border-[#E8E0D4] text-[#8B7355] uppercase tracking-wider text-xs">
-                                <th class="px-6 py-3 text-left">Период</th>
-                                <th class="px-6 py-3 text-center">Моторика</th>
-                                <th class="px-6 py-3 text-center">Сенсорика</th>
-                                <th class="px-6 py-3 text-center">Речь</th>
-                                <th class="px-6 py-3 text-center">Познание</th>
-                                <th class="px-6 py-3 text-center">Социальность</th>
-                                <th class="px-6 py-3 text-center">Самообслуж.</th>
-                                <th class="px-6 py-3 text-center">Общий</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashboard-table-body">
-                            <!-- Generated by JS -->
-                        </tbody>
-                    </table>
-                </div>
+<div id="survey-modal" class="fixed inset-0 z-[100] hidden">
+    <div class="modal-backdrop absolute inset-0" onclick="closeSurvey()"></div>
+    <div class="absolute inset-4 md:inset-12 bg-[#FDF8F0] overflow-auto shadow-2xl border border-[#E8E0D4]">
+        <div class="sticky top-0 bg-[#FDF8F0]/95 backdrop-blur border-b border-[#E8E0D4] px-6 py-4 flex justify-between items-center z-10">
+            <div><div class="annotation text-xs">Диагностический опрос</div><h3 id="survey-title" class="font-display text-2xl"></h3></div>
+            <div class="flex gap-3 no-print">
+                <button type="button" onclick="saveSurvey()" class="px-6 py-2 bg-[#B87333] text-white text-sm uppercase tracking-wider hover:bg-[#9A5F2A] transition-colors">Рассчитать и сохранить</button>
+                <button type="button" onclick="closeSurvey()" class="w-10 h-10 border border-[#E8E0D4] flex items-center justify-center hover:border-[#B87333] hover:text-[#B87333] transition-colors">✕</button>
             </div>
         </div>
-    </section>
-
-    <section id="logorhythmics" class="py-24 px-6 bg-[#F5F0E6] paper-texture print-break">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <div class="annotation mb-4">Логоритмика: ритм, речь, движение</div>
-                <h2 class="font-display text-5xl mb-4">Анкета по логоритмике</h2>
-                <p class="text-[#8B7355] max-w-2xl mx-auto">
-                    Три документа для системной оценки динамики: входная диагностика, промежуточный опрос и анализ эффективности программы.
-                </p>
-            </div>
-
-            <div class="flex justify-center gap-4 mb-12 no-print flex-wrap">
-                <button type="button" onclick="showLogDoc(1)" id="tab-doc1" class="px-6 py-3 border border-[#B87333] bg-[#B87333] text-white text-sm uppercase tracking-wider transition-all">
-                    Документ 1: Входная диагностика
-                </button>
-                <button type="button" onclick="showLogDoc(2)" id="tab-doc2" class="px-6 py-3 border border-[#E8E0D4] text-[#44403C] text-sm uppercase tracking-wider hover:border-[#B87333] transition-all">
-                    Документ 2: Промежуточная оценка
-                </button>
-                <button type="button" onclick="showLogDoc(3)" id="tab-doc3" class="px-6 py-3 border border-[#E8E0D4] text-[#44403C] text-sm uppercase tracking-wider hover:border-[#B87333] transition-all">
-                    Документ 3: Анализ эффективности
-                </button>
-                <button type="button" onclick="printLogDoc()" class="px-6 py-3 border border-[#1C1917] text-[#1C1917] text-sm uppercase tracking-wider hover:bg-[#1C1917] hover:text-white transition-all flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                    Распечатать документ
-                </button>
-            </div>
-
-            <div id="log-doc1" class="bg-[#FDF8F0] border border-[#E8E0D4] p-8 md:p-12 shadow-lg">
-                <div class="text-center mb-8 border-b border-[#E8E0D4] pb-8">
-                    <div class="annotation mb-2">Документ 1</div>
-                    <h3 class="font-display text-3xl mb-2">Входная диагностика</h3>
-                    <p class="text-[#8B7355]">Логоритмические навыки ребёнка (заполняется родителями при поступлении)</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Дата заполнения</label>
-                        <input type="date" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log1-date">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">ФИО ребёнка</label>
-                        <input type="text" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log1-name" placeholder="Введите ФИО">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Возраст (лет / мес)</label>
-                        <div class="flex gap-2">
-                            <input type="number" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" placeholder="Лет" id="log1-age-y">
-                            <input type="number" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" placeholder="Мес" id="log1-age-m">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Логопедическое заключение</label>
-                        <input type="text" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log1-logoped" placeholder="Если есть">
-                    </div>
-                </div>
-
-                <div class="space-y-8">
-                    <div>
-                        <h4 class="font-display text-xl mb-4 text-[#B87333]">Часть А. Ритмические способности</h4>
-                        <div class="space-y-4">
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Может ли ребенок повторить за взрослым серию хлопков (например, 2 хлопка – пауза – 1 хлопок)?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a1" value="2" class="custom-checkbox"><span>Легко</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a1" value="1" class="custom-checkbox"><span>С ошибками</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a1" value="0" class="custom-checkbox"><span>Не получается</span></label>
-                                </div>
-                            </div>
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Отхлопывает ли ребенок слоги в двусложных словах (ма-ма, па-па, ля-ля)?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a2" value="2" class="custom-checkbox"><span>Да, самостоятельно</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a2" value="1" class="custom-checkbox"><span>Только с моей помощью</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a2" value="0" class="custom-checkbox"><span>Нет, не может</span></label>
-                                </div>
-                            </div>
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Как ребенок двигается под ритмичную музыку?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a3" value="2" class="custom-checkbox"><span>Ритмично, совпадает с темпом</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a3" value="1" class="custom-checkbox"><span>Движется хаотично, не в такт</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_a3" value="0" class="custom-checkbox"><span>Стоит или убегает</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-display text-xl mb-4 text-[#B87333]">Часть Б. Речевое сопровождение движений</h4>
-                        <div class="space-y-4">
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Может ли одновременно топать ногой и говорить «топ-топ»?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b1" value="2" class="custom-checkbox"><span>Да</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b1" value="1" class="custom-checkbox"><span>С трудом, сбивается</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b1" value="0" class="custom-checkbox"><span>Нет, одно из двух</span></label>
-                                </div>
-                            </div>
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Повторяет ли короткие фразы из 2–3 слов в заданном ритме?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b2" value="2" class="custom-checkbox"><span>Да</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b2" value="1" class="custom-checkbox"><span>Только отдельные слова</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_b2" value="0" class="custom-checkbox"><span>Не повторяет</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-display text-xl mb-4 text-[#B87333]">Часть В. Общее развитие</h4>
-                        <div class="space-y-4">
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Любит ли ребенок музыкальные и подвижные игры?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_c1" value="2" class="custom-checkbox"><span>Очень любит</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_c1" value="1" class="custom-checkbox"><span>Относительно спокойно</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_c1" value="0" class="custom-checkbox"><span>Не любит, избегает</span></label>
-                                </div>
-                            </div>
-                            <div class="survey-card p-6">
-                                <p class="mb-3 font-medium">Есть ли нарушения звукопроизношения?</p>
-                                <div class="space-y-2">
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_c2" value="0" class="custom-checkbox"><span>Да (указать в комментариях)</span></label>
-                                    <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log1_c2" value="2" class="custom-checkbox"><span>Нет</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Дополнительные комментарии</label>
-                        <textarea class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-3 h-24 focus:border-[#B87333] outline-none" id="log1-comment" placeholder="Что важно учесть педагогу..."></textarea>
-                    </div>
-                </div>
-
-                <div class="mt-8 p-6 bg-[#F5F0E6] border border-[#E8E0D4] no-print">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <div class="annotation mb-1">Результат</div>
-                            <div class="font-display text-2xl" id="log1-result">Заполните все вопросы для расчёта</div>
-                        </div>
-                        <button type="button" onclick="calculateLog1()" class="px-6 py-3 bg-[#1C1917] text-white text-sm uppercase tracking-wider hover:bg-[#B87333] transition-colors">
-                            Рассчитать баллы
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="log-doc2" class="hidden bg-[#FDF8F0] border border-[#E8E0D4] p-8 md:p-12 shadow-lg">
-                <div class="text-center mb-8 border-b border-[#E8E0D4] pb-8">
-                    <div class="annotation mb-2">Документ 2</div>
-                    <h3 class="font-display text-3xl mb-2">Промежуточный опрос</h3>
-                    <p class="text-[#8B7355]">Динамика занятий логоритмикой (через 2–3 месяца)</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-6 mb-8">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Ребенок (инициалы)</label>
-                        <input type="text" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log2-name">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Дата</label>
-                        <input type="date" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log2-date">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Посещаемость (в неделю / всего)</label>
-                        <div class="flex gap-2">
-                            <input type="number" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" placeholder="В неделю" id="log2-freq">
-                            <input type="number" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" placeholder="Всего" id="log2-total">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Ритмический слух (повторение хлопков/стуков):</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_1" value="3" class="custom-checkbox"><span>Стал заметно лучше</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_1" value="2" class="custom-checkbox"><span>Небольшой прогресс</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_1" value="1" class="custom-checkbox"><span>Без изменений</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_1" value="0" class="custom-checkbox"><span>Ухудшилось</span></label>
-                        </div>
-                    </div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Умение сочетать слово и движение:</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_2" value="3" class="custom-checkbox"><span>Получается почти всегда</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_2" value="2" class="custom-checkbox"><span>Получается иногда</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_2" value="1" class="custom-checkbox"><span>Раньше не получалось – теперь получается</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_2" value="0" class="custom-checkbox"><span>Как и раньше, не получается</span></label>
-                        </div>
-                    </div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Речь в движении (пение с движениями, речитатив):</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_3" value="2" class="custom-checkbox"><span>Стал активнее подпевать, повторять</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_3" value="1" class="custom-checkbox"><span>Появились отдельные звуки/слова в игре</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_3" value="0" class="custom-checkbox"><span>Без изменений</span></label>
-                        </div>
-                    </div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Мелкая моторика (пальчиковые игры под ритм):</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_4" value="2" class="custom-checkbox"><span>Улучшилась</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_4" value="1" class="custom-checkbox"><span>Без динамики</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_4" value="0" class="custom-checkbox"><span>Не можем оценить</span></label>
-                        </div>
-                    </div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Общее поведение на занятиях:</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_5" value="2" class="custom-checkbox"><span>Стал более внимательным, усидчивым</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_5" value="1" class="custom-checkbox"><span>Стал охотнее вступать в игру</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log2_5" value="0" class="custom-checkbox"><span>Без изменений</span></label>
-                        </div>
-                    </div>
-
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Положительные сдвиги (можно отметить несколько):</p>
-                        <div class="grid md:grid-cols-2 gap-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" name="log2_pos" value="1" class="custom-checkbox"><span>Сам хлопает в такт песенкам</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" name="log2_pos" value="1" class="custom-checkbox"><span>Улучшилась разборчивость речи</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" name="log2_pos" value="1" class="custom-checkbox"><span>Уменьшилось заикание / запинки</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" name="log2_pos" value="1" class="custom-checkbox"><span>Лучше понимает ритмические инструкции</span></label>
-                        </div>
-                        <input type="text" class="w-full mt-3 bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" placeholder="Другое..." id="log2-pos-other">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Трудности при закреплении дома</label>
-                        <textarea class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-3 h-24 focus:border-[#B87333] outline-none" id="log2-diff"></textarea>
-                    </div>
-
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Общая оценка динамики (по 5-балльной шкале):</p>
-                        <div class="flex gap-4 justify-center">
-                            <label class="cursor-pointer text-center"><input type="radio" name="log2_rate" value="1" class="custom-checkbox block mx-auto mb-2"><span class="text-sm">1</span></label>
-                            <label class="cursor-pointer text-center"><input type="radio" name="log2_rate" value="2" class="custom-checkbox block mx-auto mb-2"><span class="text-sm">2</span></label>
-                            <label class="cursor-pointer text-center"><input type="radio" name="log2_rate" value="3" class="custom-checkbox block mx-auto mb-2"><span class="text-sm">3</span></label>
-                            <label class="cursor-pointer text-center"><input type="radio" name="log2_rate" value="4" class="custom-checkbox block mx-auto mb-2"><span class="text-sm">4</span></label>
-                            <label class="cursor-pointer text-center"><input type="radio" name="log2_rate" value="5" class="custom-checkbox block mx-auto mb-2"><span class="text-sm">5</span></label>
-                        </div>
-                        <div class="text-center text-xs text-[#8B7355] mt-2">1 – без изменений, 5 – значительный прогресс</div>
-                    </div>
-                </div>
-
-                <div class="mt-8 p-6 bg-[#F5F0E6] border border-[#E8E0D4] no-print">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <div class="annotation mb-1">Результат</div>
-                            <div class="font-display text-2xl" id="log2-result">Заполните все вопросы для расчёта</div>
-                        </div>
-                        <button type="button" onclick="calculateLog2()" class="px-6 py-3 bg-[#1C1917] text-white text-sm uppercase tracking-wider hover:bg-[#B87333] transition-colors">
-                            Рассчитать динамику
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="log-doc3" class="hidden bg-[#FDF8F0] border border-[#E8E0D4] p-8 md:p-12 shadow-lg">
-                <div class="text-center mb-8 border-b border-[#E8E0D4] pb-8">
-                    <div class="annotation mb-2">Документ 3</div>
-                    <h3 class="font-display text-3xl mb-2">Анализ эффективности программы</h3>
-                    <p class="text-[#8B7355]">До/после курса (заполняется дважды для сравнения)</p>
-                </div>
-
-                <div class="grid md:grid-cols-4 gap-6 mb-8">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Ребенок</label>
-                        <input type="text" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log3-name">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Возраст</label>
-                        <input type="text" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log3-age">
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Отметка</label>
-                        <select class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log3-phase">
-                            <option value="before">До курса</option>
-                            <option value="after">После курса</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Дата</label>
-                        <input type="date" class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-2 focus:border-[#B87333] outline-none" id="log3-date">
-                    </div>
-                </div>
-
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm mb-8">
-                        <thead>
-                            <tr class="border-b border-[#E8E0D4] text-[#8B7355] uppercase tracking-wider text-xs">
-                                <th class="px-4 py-3 text-left">№</th>
-                                <th class="px-4 py-3 text-left">Вопрос</th>
-                                <th class="px-4 py-3 text-center">Да, всегда</th>
-                                <th class="px-4 py-3 text-center">Иногда</th>
-                                <th class="px-4 py-3 text-center">Нет, совсем</th>
-                            </tr>
-                        </thead>
-                        <tbody id="log3-table-body">
-                            <!-- Generated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="log3-after-section" class="space-y-6 border-t border-[#E8E0D4] pt-6">
-                    <div class="annotation mb-4">Дополнительные вопросы (только после курса)</div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Насколько вы удовлетворены результатами курса?</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_sat" value="4" class="custom-checkbox"><span>Полностью удовлетворен</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_sat" value="3" class="custom-checkbox"><span>Скорее удовлетворен</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_sat" value="2" class="custom-checkbox"><span>Нейтрально</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_sat" value="1" class="custom-checkbox"><span>Не удовлетворен</span></label>
-                        </div>
-                    </div>
-                    <div class="survey-card p-6">
-                        <p class="mb-3 font-medium">Порекомендуете ли вы логоритмику другим родителям?</p>
-                        <div class="space-y-2">
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_rec" value="2" class="custom-checkbox"><span>Да</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_rec" value="1" class="custom-checkbox"><span>Возможно</span></label>
-                            <label class="flex items-center gap-3 cursor-pointer"><input type="radio" name="log3_rec" value="0" class="custom-checkbox"><span>Нет</span></label>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-[#8B7355] mb-2">Комментарий о программе</label>
-                        <textarea class="w-full bg-[#F5F0E6] border border-[#E8E0D4] px-4 py-3 h-24 focus:border-[#B87333] outline-none" id="log3-comment" placeholder="Что было полезно, что можно улучшить..."></textarea>
-                    </div>
-                </div>
-
-                <div class="mt-8 p-6 bg-[#F5F0E6] border border-[#E8E0D4] no-print">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <div class="annotation mb-1">Результат</div>
-                            <div class="font-display text-2xl" id="log3-result">Заполните все вопросы для расчёта</div>
-                        </div>
-                        <button type="button" onclick="calculateLog3()" class="px-6 py-3 bg-[#1C1917] text-white text-sm uppercase tracking-wider hover:bg-[#B87333] transition-colors">
-                            Рассчитать эффективность
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div id="survey-content" class="p-6 md:p-12 max-w-4xl mx-auto"></div>
+        <div class="sticky bottom-0 bg-[#FDF8F0] border-t border-[#E8E0D4] p-6 flex justify-between items-center no-print">
+            <button type="button" onclick="printSurvey()" class="px-6 py-3 border border-[#1C1917] text-[#1C1917] text-sm uppercase tracking-wider hover:bg-[#1C1917] hover:text-white transition-all flex items-center gap-2">📄 Распечатать опрос</button>
+            <button type="button" onclick="saveSurvey()" class="px-8 py-3 bg-[#1C1917] text-white text-sm uppercase tracking-wider hover:bg-[#B87333] transition-colors">Сохранить и рассчитать</button>
         </div>
-    </section>
+    </div>
+</div>
 
-    <footer class="py-12 px-6 border-t border-[#E8E0D4] bg-[#F5F0E6]">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="text-center md:text-left">
-                <div class="font-display text-xl mb-2">Ирина Сергеевна Кичигина</div>
-                <div class="text-sm text-[#8B7355]">Педагог Монтессори 0–3 года • Логоритмика</div>
-            </div>
-            <div class="text-center md:text-right text-sm text-[#8B7355]">
-                <div>Коллекционное издание • Архив развития • Диагностика</div>
-                <div class="mt-1 font-mono text-xs">© 2026 • Все права защищены</div>
-            </div>
+<section id="dashboard" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-[#E8E0D4] pb-6">
+            <div><div class="annotation mb-2">Аналитика</div><h2 class="font-display text-4xl">Дашборд развития</h2></div>
+            <div class="text-right mt-4 md:mt-0"><div class="text-sm text-[#8B7355]">Данные обновляются в реальном времени</div><div class="font-mono text-xs text-[#B87333] mt-1" id="last-updated">—</div></div>
         </div>
-    </footer>
+        <div class="grid md:grid-cols-3 gap-6 mb-12">
+            <div class="md:col-span-3 grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Моторика</div><div class="font-display text-3xl text-[#B87333]" id="dash-motor">0%</div><div class="text-xs mt-1" id="dash-motor-status">—</div></div>
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Сенсорика</div><div class="font-display text-3xl text-[#B87333]" id="dash-sensory">0%</div><div class="text-xs mt-1" id="dash-sensory-status">—</div></div>
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Речь</div><div class="font-display text-3xl text-[#B87333]" id="dash-speech">0%</div><div class="text-xs mt-1" id="dash-speech-status">—</div></div>
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Познание</div><div class="font-display text-3xl text-[#B87333]" id="dash-cognitive">0%</div><div class="text-xs mt-1" id="dash-cognitive-status">—</div></div>
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Социальность</div><div class="font-display text-3xl text-[#B87333]" id="dash-social">0%</div><div class="text-xs mt-1" id="dash-social-status">—</div></div>
+                <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-4 text-center"><div class="text-xs uppercase tracking-wider text-[#8B7355] mb-2">Самообслуживание</div><div class="font-display text-3xl text-[#B87333]" id="dash-selfcare">0%</div><div class="text-xs mt-1" id="dash-selfcare-status">—</div></div>
+            </div>
+            <div class="md:col-span-2 bg-[#F5F0E6] border border-[#E8E0D4] p-6"><div class="annotation mb-4">Радар компетенций</div><div class="chart-container"><canvas id="radarChart"></canvas></div></div>
+            <div class="bg-[#F5F0E6] border border-[#E8E0D4] p-6"><div class="annotation mb-4">Рекомендации</div><div id="recommendations-list" class="space-y-3 text-sm"><div class="text-[#8B7355] italic">Заполните диагностические опросы, чтобы получить персональные рекомендации.</div></div></div>
+        </div>
+        <div class="bg-[#FDF8F0] border border-[#E8E0D4] overflow-hidden">
+            <div class="px-6 py-4 border-b border-[#E8E0D4] bg-[#F5F0E6] flex justify-between items-center"><div class="annotation">Детализация по периодам</div><button type="button" onclick="clearAllData()" class="text-xs text-[#B85450] hover:underline no-print">Сбросить данные</button></div>
+            <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="border-b border-[#E8E0D4] text-[#8B7355] uppercase tracking-wider text-xs"><th class="px-6 py-3 text-left">Период</th><th class="px-6 py-3 text-center">Моторика</th><th class="px-6 py-3 text-center">Сенсорика</th><th class="px-6 py-3 text-center">Речь</th><th class="px-6 py-3 text-center">Познание</th><th class="px-6 py-3 text-center">Социальность</th><th class="px-6 py-3 text-center">Самообслуж.</th><th class="px-6 py-3 text-center">Общий</th></tr></thead><tbody id="dashboard-table-body"></tbody></table></div>
+        </div>
+    </div>
+</section>
 
-    <script>
-        // ==================== DATA ====================
-        const agePeriods = [
-            { id: '0-3', label: '0–3 месяца', months: '1–3', icon: '👶' },
-            { id: '3-6', label: '3–6 месяцев', months: '4–6', icon: '🍼' },
-            { id: '6-9', label: '6–9 месяцев', months: '7–9', icon: '🧸' },
-            { id: '9-12', label: '9–12 месяцев', months: '10–12', icon: '🚼' },
-            { id: '12-18', label: '12–18 месяцев', months: '1–1.5 года', icon: '🚶' },
-            { id: '18-24', label: '18–24 месяца', months: '1.5–2 года', icon: '🗣️' },
-            { id: '24-30', label: '24–30 месяцев', months: '2–2.5 года', icon: '🎨' },
-            { id: '30-36', label: '30–36 месяцев', months: '2.5–3 года', icon: '⭐' }
-        ];
+<footer class="py-12 px-6 border-t border-[#E8E0D4] bg-[#F5F0E6]">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-center md:text-left"><div class="font-display text-xl mb-2">Ирина Сергеевна Кичигина</div><div class="text-sm text-[#8B7355]">Монтессори - Педагог</div></div>
+        <div class="text-center md:text-right text-sm text-[#8B7355]"><div>Коллекционное издание • Архив развития • Диагностика</div><div class="mt-1 font-mono text-xs">© 2026 • Все права защищены</div></div>
+    </div>
+</footer>
 
-        const spheres = ['motor', 'sensory', 'speech', 'cognitive', 'social', 'selfcare'];
-        const sphereLabels = {
-            motor: 'Моторика',
-            sensory: 'Сенсорика', 
-            speech: 'Речь',
-            cognitive: 'Познание',
-            social: 'Социальность',
-            selfcare: 'Самообслуживание'
-        };
+<script>
+// ==================== ПОЛНЫЙ ОБЪЕКТ С ВОПРОСАМИ ДЛЯ ВСЕХ ПЕРИОДОВ ====================
+const agePeriods = [
+    { id: '0-3', label: '0–3 месяца', months: '1–3', icon: '👶' },
+    { id: '3-6', label: '3–6 месяцев', months: '4–6', icon: '🍼' },
+    { id: '6-9', label: '6–9 месяцев', months: '7–9', icon: '🧸' },
+    { id: '9-12', label: '9–12 месяцев', months: '10–12', icon: '🚼' },
+    { id: '12-18', label: '12–18 месяцев', months: '1–1.5 года', icon: '🚶' },
+    { id: '18-24', label: '18–24 месяца', months: '1.5–2 года', icon: '🗣️' },
+    { id: '24-30', label: '24–30 месяцев', months: '2–2.5 года', icon: '🎨' },
+    { id: '30-36', label: '30–36 месяцев', months: '2.5–3 года', icon: '⭐' }
+];
 
-        const surveyData = {
-            '0-3': {
-                motor: [
-                    'Ребёнок поднимает голову, лёжа на животе',
-                    'Делает попытки повернуться со спины на бок',
-                    'Следит глазами за движущимся предметом 180°',
-                    'Хватает игрушку, помещённую в ладонь (рефлекс)'
-                ],
-                sensory: [
-                    'Реагирует на яркий свет (замирает, моргает)',
-                    'Поворачивает голову в сторону звука',
-                    'Различает запах матери',
-                    'Реагирует на прикосновение (расслабляется/напрягается)'
-                ],
-                speech: [
-                    'Издаёт гуление, смычные звуки',
-                    'Реагирует на голос матери остановкой движений',
-                    'Использует различные интонации плача',
-                    'Гулит, когда с ним разговаривают'
-                ],
-                cognitive: [
-                    'Сосредотачивается на лице взрослого 2–3 сек',
-                    'Исследует собственные руки (смотрит, трогает)',
-                    'Показывает интерес к новым звукам',
-                    'Начинает координировать глаза и руки'
-                ],
-                social: [
-                    'Устанавливает зрительный контакт',
-                    'Улыбается в ответ на улыбку',
-                    'Показывает эмоции на лице (удивление, интерес)',
-                    'Успокаивается при взятии на руки'
-                ],
-                selfcare: [
-                    'Помогает держать грудь/бутылочку руками',
-                    'Открывает рот при приближении соски',
-                    'Показывает голод/сытость разными сигналами',
-                    'Имеет режим сна 3–4 раза в сутки'
-                ]
-            },
-            '3-6': {
-                motor: [
-                    'Уверенно держит голову в вертикальном положении',
-                    'Перекатывается с живота на спину и обратно',
-                    'Опирается на предплечья, лёжа на животе',
-                    'Тянется к игрушке и пытается её схватить'
-                ],
-                sensory: [
-                    'Различает голоса близких людей',
-                    'Интересуется собственным отражением',
-                    'Протягивает руки к ярким предметам',
-                    'Реагирует на изменение температуры'
-                ],
-                speech: [
-                    'Гулит с разными интонациями (агу, гугу)',
-                    'Смеётся вслух',
-                    'Произносит слоги «ба», «ма», «па» (без осознания)',
-                    'Реагирует на своё имя поворотом головы'
-                ],
-                cognitive: [
-                    'Исследует предметы ртом',
-                    'Ищет упавшую игрушку',
-                    'Различает знакомых и незнакомых людей',
-                    'Понимает запретительный тон («нельзя»)'
-                ],
-                social: [
-                    'Различает маму и чужих',
-                    'Активно «общается» с зеркальным отражением',
-                    'Требует внимания криком/жестами',
-                    'Проявляет радость при встрече с близкими'
-                ],
-                selfcare: [
-                    'Держит бутылочку самостоятельно',
-                    'Отталкивает пищу, если не голоден',
-                    'Играет со своими пальцами/ногами',
-                    'Помогает при одевании, вставляя руки в рукава'
-                ]
-            },
-            '6-9': {
-                motor: [
-                    'Сидит без опоры или с минимальной опорой',
-                    'Ползает на четвереньках или пытается',
-                    'Перекладывает игрушку из руки в руку',
-                    'Хлопает в ладоши по подражанию'
-                ],
-                sensory: [
-                    'Ищет игрушку, спрятанную под покрывало',
-                    'Различает мелкие детали в игрушках',
-                    'Интересуется текстурами (трёт, щупает)',
-                    'Реагирует на музыку (замирает, «танцует»)'
-                ],
-                speech: [
-                    'Произносит повторяющиеся слоги (бабаба, мамама)',
-                    'Понимает простые указания («дай», «на»)',
-                    'Использует жесты для коммуникации (машет рукой)',
-                    'Имитирует новые звуки за взрослым'
-                ],
-                cognitive: [
-                    'Бьёт одной игрушкой о другую',
-                    'Исследует, как падают предметы',
-                    'Открывает/закрывает коробочки, крышки',
-                    'Показывает интерес к причинно-следственным связям'
-                ],
-                social: [
-                    'Проявляет ревность, когда мама уделяет внимание другим',
-                    'Играет в «лапту» (даёт-берёт)',
-                    'Показывает предметы взрослому',
-                    'Испытывает страх перед незнакомцами'
-                ],
-                selfcare: [
-                    'Ест самостоятельно печенье/хлеб',
-                    'Пьёт из чашки с помощью взрослого',
-                    'Помогает вытирать рот салфеткой',
-                    'Показывает жестами, что хочет есть/пить'
-                ]
-            },
-            '9-12': {
-                motor: [
-                    'Стоит, держась за опору',
-                    'Проходит вдоль мебели (кruжение)',
-                    'Самостоятельно садится из положения лёжа',
-                    'Берёт мелкие предметы двумя пальцами (щипцовый захват)'
-                ],
-                sensory: [
-                    'Находит игрушку, спрятанную под несколькими слоями',
-                    'Различает формы при сортировке',
-                    'Предпочитает определённые текстуры',
-                    'Реагирует на своё имя и простые слова'
-                ],
-                speech: [
-                    'Произносит первые осознанные слова (мама, дай, на)',
-                    'Понимает до 10 слов',
-                    'Использует жесты и звуки для указания на желаемое',
-                    'Повторяет слоги за взрослым'
-                ],
-                cognitive: [
-                    'Сортирует предметы по одному признаку (цвет/форма)',
-                    'Ищет спрятанные предметы в нескольких местах',
-                    'Имитирует бытовые действия (чистит, разговаривает по телефону)',
-                    'Понимает назначение предметов'
-                ],
-                social: [
-                    'Играет рядом с другими детьми (параллельная игра)',
-                    'Показывает эмоции: радость, грусть, страх',
-                    'Тянется к другим детям',
-                    'Проявляет привязанность к постоянным взрослым'
-                ],
-                selfcare: [
-                    'Ест самостоятельно руками',
-                    'Пробует использовать ложку с помощью',
-                    'Помогает при мытье рук, вытирает рот',
-                    'Показывает на горшок/подгузник жестами'
-                ]
-            },
-            '12-18': {
-                motor: [
-                    'Ходит самостоятельно или с минимальной поддержкой',
-                    'Наклоняется, чтобы поднять предмет, и встаёт',
-                    'Несит предметы во время ходьбы',
-                    'Строит башню из 2–3 кубиков'
-                ],
-                sensory: [
-                    'Различает цвета (основные: красный, синий, жёлтый)',
-                    'Находит различия в парах картинок',
-                    'Предпочитает определённые звуки/мелодии',
-                    'Исследует вес и объём предметов'
-                ],
-                speech: [
-                    'Использует 5–10 осознанных слов',
-                    'Понимает простые двусоставные указания',
-                    'Имитирует новые слова',
-                    'Использует жесты + слова для коммуникации'
-                ],
-                cognitive: [
-                    'Сортирует предметы по цвету и форме',
-                    'Находит детали, спрятанные в сложных местах',
-                    'Имитирует последовательности действий',
-                    'Понимает функции предметов (ложка — есть, мяч — кидать)'
-                ],
-                social: [
-                    'Играет с другими детьми (имитация, обмен)',
-                    'Показывает привязанность к игрушкам',
-                    'Испытывает стыд/гордость',
-                    'Проявляет упрямство, желание самостоятельности'
-                ],
-                selfcare: [
-                    'Ест ложкой самостоятельно (с разбрызгиванием)',
-                    'Снимает носки, шапку, неплотную обувь',
-                    'Помогает убирать игрушки по просьбе',
-                    'Показывает готовность к горшку (частично)'
-                ]
-            },
-            '18-24': {
-                motor: [
-                    'Бегает, не падая',
-                    'Прыгает на месте двумя ногами',
-                    'Садится на корточки и встаёт',
-                    'Рисует мазки, каракули'
-                ],
-                sensory: [
-                    'Различает 3–4 основных цвета',
-                    'Сопоставляет предметы по текстуре',
-                    'Различает высокие/низкие звуки',
-                    'Интересуется запахами (травы, еда)'
-                ],
-                speech: [
-                    'Использует 20–50 слов',
-                    'Составляет двусловные фразы («мама дай»)',
-                    'Понимает сложные указания («принеси книжку и положи на стол»)',
-                    'Задаёт вопросы интонацией'
-                ],
-                cognitive: [
-                    'Сортирует по 2–3 признакам',
-                    'Собирает простые пазлы (2–4 детали)',
-                    'Имитирует повседневные сценарии (кормит куклу)',
-                    'Понимает пространственные отношения (в/на/под)'
-                ],
-                social: [
-                    'Играет в сюжетно-ролевые игры',
-                    'Проявляет ревность к новорождённым/животным',
-                    'Испытывает сильные эмоции (истерики, радость)',
-                    'Показывает привязанность к сверстникам'
-                ],
-                selfcare: [
-                    'Ест аккуратно ложкой',
-                    'Просится на горшок/туалет',
-                    'Моет руки с помощью, вытирает лицо',
-                    'Помогает одеваться (вставляет руки, ноги)'
-                ]
-            },
-            '24-30': {
-                motor: [
-                    'Прыгает с небольшой высоты',
-                    'Балансирует на одной ноге 1–2 сек',
-                    'Лазает по лестнице попеременно',
-                    'Рисует круги, вертикальные линии'
-                ],
-                sensory: [
-                    'Различает все основные цвета',
-                    'Сопоставляет звуки с их источниками',
-                    'Использует несколько чувств одновременно',
-                    'Интересуется контрастами (тёплый-холодный)'
-                ],
-                speech: [
-                    'Использует 100–200 слов',
-                    'Строит трёхсловные фразы',
-                    'Задаёт вопросы «что?», «где?»',
-                    'Повторяет стихи, песни по фрагментам'
-                ],
-                cognitive: [
-                    'Считает до 3',
-                    'Собирает пазлы 6–10 деталей',
-                    'Группирует предметы по категориям',
-                    'Понимает временные последовательности (сначала-потом)'
-                ],
-                social: [
-                    'Играет в группе 2–3 детей',
-                    'Делится игрушками (с напоминанием)',
-                    'Проявляет сочувствие к плачущему',
-                    'Имеет представление о «моё/чужое»'
-                ],
-                selfcare: [
-                    'Самостоятельно ест вилкой и ложкой',
-                    'Ходит на горшок/туалет самостоятельно',
-                    'Моет руки, чистит зубы с контролем',
-                    'Помогает убирать, накрывать на стол'
-                ]
-            },
-            '30-36': {
-                motor: [
-                    'Прыгает на одной ноге 3–5 раз',
-                    'Ловит мяч двумя руками',
-                    'Идёт по бревну/линии',
-                    'Рисует человечка (голова, туловище, конечности)'
-                ],
-                sensory: [
-                    'Различает оттенки цветов',
-                    'Описывает ощущения словами',
-                    'Различает ритмы и темпы',
-                    'Использует сенсорный опыт в играх'
-                ],
-                speech: [
-                    'Использует 300+ слов',
-                    'Строит сложные предложения',
-                    'Задаёт вопросы «почему?», «как?»',
-                    'Рассказывает о своих переживаниях'
-                ],
-                cognitive: [
-                    'Считает до 5–10',
-                    'Знает несколько букв/цифр',
-                    'Решает простые логические задачи',
-                    'Понимает вчера/сегодня/завтра'
-                ],
-                social: [
-                    'Играет в кооперативные игры',
-                    'Соблюдает простые правила',
-                    'Проявляет заботу о младших',
-                    'Имеет друзей, называет их имена'
-                ],
-                selfcare: [
-                    'Самостоятельно одевается/раздевается',
-                    'Умывается, чистит зубы самостоятельно',
-                    'Помогает по дому (протирать, подметать)',
-                    'Готовит простую еду (мешать, намазывать)'
-                ]
-            }
-        };
+const spheres = ['motor', 'sensory', 'speech', 'cognitive', 'social', 'selfcare'];
+const sphereLabels = { motor: 'Моторика', sensory: 'Сенсорика', speech: 'Речь', cognitive: 'Познание', social: 'Социальность', selfcare: 'Самообслуживание' };
 
-        const log3Questions = [
-            'Ребенок может повторить простую ритмическую фразу (3–4 хлопка)',
-            'Сопровождает свои действия речью («я иду», «кукла спит»)',
-            'Узнает знакомые мелодии по ритмическому рисунку',
-            'Может замедлять или ускорять движения по команде («тише-громче», «быстро-медленно»)',
-            'Произносит фразу из 3–4 слов слитно, без запинок',
-            'Повторяет чистоговорки в заданном ритме (ра-ра-ра – вышла детвора)',
-            'Легко переключается с одного ритмического движения на другое (хлопки → притопы)',
-            'Играет в пальчиковые игры с речитативом без помощи взрослого'
-        ];
+// Данные опросов для всех периодов
+const surveyData = {
+    '0-3': { motor: ['Ребёнок поднимает голову, лёжа на животе','Делает попытки повернуться со спины на бок','Следит глазами за движущимся предметом','Хватает игрушку, помещённую в ладонь (рефлекс)'], sensory: ['Реагирует на яркий свет (замирает, моргает)','Поворачивает голову в сторону звука','Различает запах матери','Реагирует на прикосновение (расслабляется/напрягается)'], speech: ['Издаёт гуление, смычные звуки','Реагирует на голос матери остановкой движений','Использует различные интонации плача','Гулит, когда с ним разговаривают'], cognitive: ['Сосредотачивается на лице взрослого 2–3 сек','Исследует собственные руки (смотрит, трогает)','Показывает интерес к новым звукам','Начинает координировать глаза и руки'], social: ['Устанавливает зрительный контакт','Улыбается в ответ на улыбку','Показывает эмоции на лице (удивление, интерес)','Успокаивается при взятии на руки'], selfcare: ['Помогает держать грудь/бутылочку руками','Открывает рот при приближении соски','Показывает голод/сытость разными сигналами','Имеет режим сна 3–4 раза в сутки'] },
+    '3-6': { motor: ['Уверенно держит голову в вертикальном положении','Перекатывается с живота на спину и обратно','Опирается на предплечья, лёжа на животе','Тянется к игрушке и пытается её схватить'], sensory: ['Различает голоса близких людей','Интересуется собственным отражением','Протягивает руки к ярким предметам','Реагирует на изменение температуры'], speech: ['Гулит с разными интонациями (агу, гугу)','Смеётся вслух','Произносит слоги «ба», «ма», «па» (без осознания)','Реагирует на своё имя поворотом головы'], cognitive: ['Исследует предметы ртом','Ищет упавшую игрушку','Различает знакомых и незнакомых людей','Понимает запретительный тон («нельзя»)'], social: ['Различает маму и чужих','Активно «общается» с зеркальным отражением','Требует внимания криком/жестами','Проявляет радость при встрече с близкими'], selfcare: ['Держит бутылочку самостоятельно','Отталкивает пищу, если не голоден','Играет со своими пальцами/ногами','Помогает при одевании, вставляя руки в рукава'] },
+    '6-9': { motor: ['Сидит без опоры или с минимальной опорой','Ползает на четвереньках или пытается','Перекладывает игрушку из руки в руку','Хлопает в ладоши по подражанию'], sensory: ['Ищет игрушку, спрятанную под покрывало','Различает мелкие детали в игрушках','Интересуется текстурами (трёт, щупает)','Реагирует на музыку (замирает, «танцует»)'], speech: ['Произносит повторяющиеся слоги (бабаба, мамама)','Понимает простые указания («дай», «на»)','Использует жесты для коммуникации (машет рукой)','Имитирует новые звуки за взрослым'], cognitive: ['Бьёт одной игрушкой о другую','Исследует, как падают предметы','Открывает/закрывает коробочки, крышки','Показывает интерес к причинно-следственным связям'], social: ['Проявляет ревность, когда мама уделяет внимание другим','Играет в «лапту» (даёт-берёт)','Показывает предметы взрослому','Испытывает страх перед незнакомцами'], selfcare: ['Ест самостоятельно печенье/хлеб','Пьёт из чашки с помощью взрослого','Помогает вытирать рот салфеткой','Показывает на горшок/подгузник жестами'] },
+    '9-12': { motor: ['Стоит, держась за опору','Проходит вдоль мебели (кружение)','Самостоятельно садится из положения лёжа','Берёт мелкие предметы двумя пальцами (щипцовый захват)'], sensory: ['Находит игрушку, спрятанную под несколькими слоями','Различает формы при сортировке','Предпочитает определённые текстуры','Реагирует на своё имя и простые слова'], speech: ['Произносит первые осознанные слова (мама, дай, на)','Понимает до 10 слов','Использует жесты и звуки для указания на желаемое','Повторяет слоги за взрослым'], cognitive: ['Сортирует предметы по одному признаку (цвет/форма)','Ищет спрятанные предметы в нескольких местах','Имитирует бытовые действия (чистит, разговаривает по телефону)','Понимает назначение предметов'], social: ['Играет рядом с другими детьми (параллельная игра)','Показывает эмоции: радость, грусть, страх','Тянется к другим детям','Проявляет привязанность к постоянным взрослым'], selfcare: ['Ест самостоятельно руками','Пробует есть ложкой','Помогает при мытье рук, вытирает рот','Показывает готовность к горшку (частично)'] },
+    '12-18': { motor: ['Ходит самостоятельно или с минимальной поддержкой','Наклоняется, чтобы поднять предмет, и встаёт','Несёт предметы во время ходьбы','Строит башню из 2–3 кубиков'], sensory: ['Различает цвета (основные: красный, синий, жёлтый)','Находит различия в парах картинок','Предпочитает определённые звуки/мелодии','Исследует вес и объём предметов'], speech: ['Использует 5–10 осознанных слов','Понимает простые двусоставные указания','Имитирует новые слова','Использует жесты + слова для коммуникации'], cognitive: ['Сортирует предметы по цвету и форме','Находит детали, спрятанные в сложных местах','Имитирует последовательности действий','Понимает функции предметов (ложка — есть, мяч — кидать)'], social: ['Играет с другими детьми (имитация, обмен)','Показывает привязанность к игрушкам','Испытывает стыд/гордость','Проявляет упрямство, желание самостоятельности'], selfcare: ['Ест ложкой самостоятельно (с разбрызгиванием)','Снимает носки, шапку, неплотную обувь','Помогает убирать игрушки по просьбе','Показывает готовность к горшку (частично)'] },
+    '18-24': { motor: ['Бегает, не падая','Прыгает на месте двумя ногами','Садится на корточки и встаёт','Рисует мазки, каракули'], sensory: ['Различает 3–4 основных цвета','Сопоставляет предметы по текстуре','Различает высокие/низкие звуки','Интересуется запахами (травы, еда)'], speech: ['Использует 20–50 слов','Составляет двусловные фразы («мама дай»)','Понимает сложные указания («принеси книжку и положи на стол»)','Задаёт вопросы интонацией'], cognitive: ['Сортирует по 2–3 признакам','Собирает простые пазлы (2–4 детали)','Имитирует повседневные сценарии (кормит куклу)','Понимает пространственные отношения (в/на/под)'], social: ['Играет в сюжетно-ролевые игры','Проявляет ревность к новорождённым/животным','Испытывает сильные эмоции (истерики, радость)','Показывает привязанность к сверстникам'], selfcare: ['Ест аккуратно ложкой','Просится на горшок/туалет','Моет руки с помощью, вытирает лицо','Помогает одеваться (вставляет руки, ноги)'] },
+    '24-30': { motor: ['Прыгает с небольшой высоты','Балансирует на одной ноге 1–2 сек','Лазает по лестнице попеременно','Рисует круги, вертикальные линии'], sensory: ['Различает все основные цвета','Сопоставляет звуки с их источниками','Использует несколько чувств одновременно','Интересуется контрастами (тёплый-холодный)'], speech: ['Использует 100–200 слов','Строит трёхсловные фразы','Задаёт вопросы «что?», «где?»','Повторяет стихи, песни по фрагментам'], cognitive: ['Считает до 3','Собирает пазлы 6–10 деталей','Группирует предметы по категориям','Понимает временные последовательности (сначала-потом)'], social: ['Играет в группе 2–3 детей','Делится игрушками (с напоминанием)','Проявляет сочувствие к плачущему','Имеет представление о «моё/чужое»'], selfcare: ['Самостоятельно ест вилкой и ложкой','Ходит на горшок/туалет самостоятельно','Моет руки, чистит зубы с контролем','Помогает убирать, накрывать на стол'] },
+    '30-36': { motor: ['Прыгает на одной ноге 3–5 раз','Ловит мяч двумя руками','Идёт по бревну/линии','Рисует человечка (голова, туловище, конечности)'], sensory: ['Различает оттенки цветов','Описывает ощущения словами','Различает ритмы и темпы','Использует сенсорный опыт в играх'], speech: ['Использует 300+ слов','Строит сложные предложения','Задаёт вопросы «почему?», «как?»','Рассказывает о своих переживаниях'], cognitive: ['Считает до 5–10','Знает несколько букв/цифр','Ориентируется в режиме дня','Понимает вчера/сегодня/завтра'], social: ['Играет в командные игры','Соблюдает простые правила','Проявляет заботу о младших','Имеет друзей, называет их имена'], selfcare: ['Самостоятельно одевается/раздевается','Умывается, чистит зубы самостоятельно','Помогает по дому (протирать, подметать)','Готовит простую еду (мешать, намазывать)'] }
+};
 
-        // ==================== STATE ====================
-        let surveyResults = JSON.parse(localStorage.getItem('montessori_survey') || '{}');
-        let radarChart = null;
-        let currentSurveyPeriod = null;
+let surveyResults = JSON.parse(localStorage.getItem('montessori_survey') || '{}');
+let radarChart = null;
+let currentSurveyPeriod = null;
 
-        // ==================== INIT ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            renderTimeline();
-            initLog3Table();
-            initRadarChartOnce();
-            updateDashboard();
-            document.getElementById('last-updated').textContent = new Date().toLocaleString('ru-RU');
+document.addEventListener('DOMContentLoaded', () => {
+    renderTimeline();
+    initRadarChart();
+    updateDashboard();
+    document.getElementById('last-updated').textContent = new Date().toLocaleString('ru-RU');
+});
 
-            const today = new Date().toISOString().split('T')[0];
-            ['log1-date', 'log2-date', 'log3-date'].forEach(id => {
-                const el = document.getElementById(id);
-                if(el) el.value = today;
-            });
+function renderTimeline() {
+    const container = document.getElementById('timeline-container');
+    container.innerHTML = agePeriods.map((period, idx) => {
+        const isLeft = idx % 2 === 0;
+        const hasResult = surveyResults[period.id];
+        const resultIndicator = hasResult ? `<span class="inline-block w-2 h-2 rounded-full bg-[#B87333] ml-2"></span>` : '';
+        return `<div class="flex items-center ${isLeft ? 'flex-row' : 'flex-row-reverse'} gap-8 relative">
+            <div class="flex-1 ${isLeft ? 'text-right' : 'text-left'}"><div class="survey-card p-6 inline-block max-w-md text-left cursor-pointer" onclick="openSurvey('${period.id}')"><div class="flex items-center gap-3 mb-2"><span class="text-2xl">${period.icon}</span><span class="annotation">${period.months}</span>${resultIndicator}</div><h3 class="font-display text-xl mb-1">${period.label}</h3><p class="text-sm text-[#8B7355]">Нажмите, чтобы пройти диагностику по 6 сферам развития</p>${hasResult ? `<div class="mt-3 pt-3 border-t border-[#E8E0D4] text-xs font-mono text-[#B87333]">Заполнено: ${hasResult.date || '—'}</div>` : ''}</div></div>
+            <div class="timeline-node w-12 h-12 rounded-full bg-[#FDF8F0] border-2 border-[#B87333] flex items-center justify-center z-10 ${hasResult ? 'active' : ''}" onclick="openSurvey('${period.id}')"><span class="font-display text-sm">${idx+1}</span></div>
+            <div class="flex-1"></div>
+        </div>`;
+    }).join('');
+}
+
+function openSurvey(periodId) {
+    currentSurveyPeriod = periodId;
+    const period = agePeriods.find(p => p.id === periodId);
+    const data = surveyData[periodId];
+    const saved = surveyResults[periodId]?.answers || {};
+    document.getElementById('survey-title').textContent = `${period.label}: Диагностический опрос`;
+    let html = `<div class="space-y-8">`;
+    spheres.forEach(sphere => {
+        const questions = data[sphere];
+        html += `<div class="border-t border-[#E8E0D4] pt-6"><h4 class="font-display text-xl mb-4 text-[#B87333] flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#B87333]/10 flex items-center justify-center text-sm">${sphereLabels[sphere][0]}</span>${sphereLabels[sphere]}</h4><div class="space-y-4">`;
+        questions.forEach((q, qIdx) => {
+            const key = `${sphere}_${qIdx}`;
+            const checked = saved[key] || {};
+            html += `<div class="survey-card p-5"><p class="mb-3 font-medium text-[#44403C]">${q}</p><div class="flex flex-wrap gap-4"><label class="flex items-center gap-2 cursor-pointer text-sm"><input type="radio" name="${key}" value="below" class="custom-checkbox" ${checked.val === 'below' ? 'checked' : ''}><span class="indicator-below px-2 py-1 rounded">Ниже нормы</span></label><label class="flex items-center gap-2 cursor-pointer text-sm"><input type="radio" name="${key}" value="normal" class="custom-checkbox" ${checked.val === 'normal' ? 'checked' : ''}><span class="indicator-normal px-2 py-1 rounded">В норме</span></label><label class="flex items-center gap-2 cursor-pointer text-sm"><input type="radio" name="${key}" value="above" class="custom-checkbox" ${checked.val === 'above' ? 'checked' : ''}><span class="indicator-above px-2 py-1 rounded">Выше нормы</span></label></div></div>`;
         });
+        html += `</div></div>`;
+    });
+    html += `</div>`;
+    document.getElementById('survey-content').innerHTML = html;
+    document.getElementById('survey-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
 
-        // ==================== TIMELINE ====================
-        function renderTimeline() {
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = agePeriods.map((period, idx) => {
-                const isLeft = idx % 2 === 0;
-                const hasResult = surveyResults[period.id];
-                const resultIndicator = hasResult ? `<span class="inline-block w-2 h-2 rounded-full bg-[#B87333] ml-2"></span>` : '';
+function closeSurvey() {
+    document.getElementById('survey-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+    currentSurveyPeriod = null;
+}
 
-                return `
-                    <div class="flex items-center ${isLeft ? 'flex-row' : 'flex-row-reverse'} gap-8 relative">
-                        <div class="flex-1 ${isLeft ? 'text-right' : 'text-left'}">
-                            <div class="survey-card p-6 inline-block max-w-md text-left cursor-pointer" onclick="openSurvey('${period.id}')">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <span class="text-2xl">${period.icon}</span>
-                                    <span class="annotation">${period.months}</span>
-                                    ${resultIndicator}
+function saveSurvey() {
+    if (!currentSurveyPeriod) return;
+    const periodId = currentSurveyPeriod;
+    const answers = {};
+    let total = 0, answered = 0;
+    spheres.forEach(sphere => {
+        surveyData[periodId][sphere].forEach((_, idx) => {
+            total++;
+            const key = `${sphere}_${idx}`;
+            const selected = document.querySelector(`input[name="${key}"]:checked`);
+            if (selected) { answered++; answers[key] = { val: selected.value, sphere }; }
+        });
+    });
+    if (answered < total * 0.5) { alert('Пожалуйста, ответьте хотя бы на половину вопросов.'); return; }
+    surveyResults[periodId] = { date: new Date().toLocaleDateString('ru-RU'), answers, stats: calculateStats(answers) };
+    localStorage.setItem('montessori_survey', JSON.stringify(surveyResults));
+    document.getElementById('last-updated').textContent = new Date().toLocaleString('ru-RU');
+    closeSurvey();
+    renderTimeline();
+    updateDashboard();
+    setTimeout(() => document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' }), 100);
+}
+
+function calculateStats(answers) {
+    const stats = {};
+    spheres.forEach(sphere => {
+        const sphereAnswers = Object.values(answers).filter(a => a.sphere === sphere);
+        let score = 0, max = sphereAnswers.length * 2;
+        sphereAnswers.forEach(a => { if (a.val === 'normal') score += 1; else if (a.val === 'above') score += 2; });
+        stats[sphere] = { percent: max ? Math.round((score / max) * 100) : 0 };
+    });
+    return stats;
+}
+
+function initRadarChart() {
+    const canvas = document.getElementById('radarChart');
+    if (!canvas) return;
+    radarChart = new Chart(canvas.getContext('2d'), {
+        type: 'radar',
+        data: { labels: Object.values(sphereLabels), datasets: [{ label: 'Текущие показатели', data: [0,0,0,0,0,0], backgroundColor: 'rgba(184,115,51,0.15)', borderColor: '#B87333', pointBackgroundColor: '#B87333', borderWidth: 2, pointRadius: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 20 } } } }
+    });
+}
+
+function updateDashboard() {
+    const periods = Object.keys(surveyResults);
+    let data = [0,0,0,0,0,0], latestStats = null;
+    if (periods.length) {
+        const latest = surveyResults[periods[periods.length-1]];
+        data = spheres.map(s => latest.stats[s]?.percent || 0);
+        latestStats = latest.stats;
+    }
+    spheres.forEach((sphere, idx) => {
+        const percent = data[idx];
+        const el = document.getElementById(`dash-${sphere}`);
+        if (el) el.textContent = percent + '%';
+        const statusEl = document.getElementById(`dash-${sphere}-status`);
+        if (statusEl) {
+            let status = 'Норма', cls = 'indicator-normal';
+            if (percent < 40) { status = 'Ниже нормы'; cls = 'indicator-below'; }
+            else if (percent > 75) { status = 'Выше нормы'; cls = 'indicator-above'; }
+            statusEl.innerHTML = `<span class="${cls} px-2 py-1 rounded text-xs inline-block mt-1">${status}</span>`;
+        }
+    });
+    if (radarChart) radarChart.data.datasets[0].data = data, radarChart.update();
+    if (latestStats) updateRecommendations(latestStats);
+    updateTable();
+}
+
+function updateRecommendations(stats) {
+    const container = document.getElementById('recommendations-list');
+    const recs = [];
+    if (stats.motor?.percent < 40) recs.push('<strong>Моторика:</strong> Увеличьте время tummy time, используйте подвесные игрушки.');
+    if (stats.sensory?.percent < 40) recs.push('<strong>Сенсорика:</strong> Используйте сенсорные коробки, материалы разной текстуры.');
+    if (stats.speech?.percent < 40) recs.push('<strong>Речь:</strong> Читайте книги, пойте песенки.');
+    if (stats.cognitive?.percent < 40) recs.push('<strong>Познание:</strong> Используйте сортировщики, простые пазлы.');
+    if (stats.social?.percent < 40) recs.push('<strong>Социальность:</strong> Больше времени проводите с другими детьми.');
+    if (stats.selfcare?.percent < 40) recs.push('<strong>Самообслуживание:</strong> Используйте адаптированную посуду.');
+    container.innerHTML = recs.length ? recs.map(r => `<div class="p-3 bg-[#FDF8F0] border-l-2 border-[#B87333] text-[#44403C]">${r}</div>`).join('') : '<div class="text-[#8B7355] italic">Все показатели в норме. Продолжайте текущую программу.</div>';
+}
+
+function updateTable() {
+    const tbody = document.getElementById('dashboard-table-body');
+    const rows = agePeriods.map(period => {
+        const result = surveyResults[period.id];
+        if (!result) return '';
+        const cells = spheres.map(s => `<td class="px-6 py-3 text-center ${result.stats[s]?.percent < 40 ? 'text-[#B85450]' : (result.stats[s]?.percent > 75 ? 'text-[#B87333]' : 'text-[#5A8F6E]')} font-mono">${result.stats[s]?.percent || 0}%</td>`).join('');
+        const total = Math.round(spheres.reduce((sum, s) => sum + (result.stats[s]?.percent || 0), 0) / 6);
+        return `<tr class="border-b border-[#E8E0D4]"><td class="px-6 py-3 font-medium">${period.label}</td>${cells}<td class="px-6 py-3 text-center font-display text-[#B87333]">${total}%</td></tr>`;
+    }).filter(Boolean).join('');
+    tbody.innerHTML = rows || '<tr><td colspan="8" class="px-6 py-8 text-center text-[#8B7355] italic">Нет данных. Заполните опросы в разделе «Архив развития».</td></tr>';
+}
+
+function exportToCSV() {
+    let csv = 'Период,Дата,Моторика,Сенсорика,Речь,Познание,Социальность,Самообслуживание\n';
+    agePeriods.forEach(period => {
+        const r = surveyResults[period.id];
+        if (r) csv += [period.label, r.date, r.stats.motor?.percent||0, r.stats.sensory?.percent||0, r.stats.speech?.percent||0, r.stats.cognitive?.percent||0, r.stats.social?.percent||0, r.stats.selfcare?.percent||0].join(',') + '\n';
+    });
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'монтессори_дашборд.csv';
+    a.click();
+}
+
+function clearAllData() {
+    if (confirm('Удалить все сохранённые данные?')) { surveyResults = {}; localStorage.removeItem('montessori_survey'); renderTimeline(); updateDashboard(); }
+}
+
+// ========== ПОЛНОСТЬЮ РАБОТАЮЩАЯ ФУНКЦИЯ ПЕЧАТИ ==========
+function printSurvey() {
+    if (!currentSurveyPeriod) {
+        alert('Сначала откройте опрос.');
+        return;
+    }
+
+    const period = agePeriods.find(p => p.id === currentSurveyPeriod);
+    const data = surveyData[currentSurveyPeriod];
+    if (!data) {
+        alert('Данные опроса не найдены.');
+        return;
+    }
+
+    // Собираем выбранные ответы из текущего DOM
+    const selectedAnswers = {};
+    spheres.forEach(sphere => {
+        data[sphere].forEach((_, qIdx) => {
+            const key = `${sphere}_${qIdx}`;
+            const checkedRadio = document.querySelector(`input[name="${key}"]:checked`);
+            let answerText = '— не выбрано —';
+            if (checkedRadio) {
+                if (checkedRadio.value === 'below') answerText = 'Ниже нормы';
+                else if (checkedRadio.value === 'normal') answerText = 'В норме';
+                else if (checkedRadio.value === 'above') answerText = 'Выше нормы';
+            }
+            selectedAnswers[key] = {
+                question: data[sphere][qIdx],
+                sphere: sphere,
+                answer: answerText
+            };
+        });
+    });
+
+    // Открываем окно для печати
+    const printWindow = window.open('', '_blank');
+    const styles = document.querySelector('style').innerHTML;
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Диагностический опрос — ${period.label}</title>
+            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+            <style>
+                ${styles}
+                body {
+                    padding: 2rem;
+                    background: white;
+                    margin: 0;
+                    font-family: 'Cormorant Garamond', Georgia, serif;
+                }
+                .survey-card {
+                    background: #FDF8F0;
+                    border: 1px solid #E8E0D4;
+                    border-radius: 0;
+                    box-shadow: none;
+                    break-inside: avoid;
+                    page-break-inside: avoid;
+                    margin-bottom: 1rem;
+                }
+                .indicator-below, .indicator-normal, .indicator-above {
+                    display: inline-block;
+                    background: transparent;
+                    color: #1C1917;
+                    border: 1px solid #ccc;
+                    padding: 0.2rem 0.8rem;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                }
+                .selected-answer {
+                    margin-top: 0.5rem;
+                    font-weight: 500;
+                    color: #B87333;
+                }
+                .no-print, .modal-backdrop, .sticky, button, nav {
+                    display: none;
+                }
+                .annotation {
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    font-size: 0.7rem;
+                }
+                @media print {
+                    body { padding: 0; }
+                    .survey-card { break-inside: avoid; }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="annotation">Диагностический опрос</div>
+                    <h1 class="font-display text-4xl mt-2">${period.label}</h1>
+                    <p class="text-[#8B7355]">Дата заполнения: ${new Date().toLocaleDateString('ru-RU')}</p>
+                    <div class="w-16 h-px bg-[#B87333] mx-auto my-4"></div>
+                </div>
+                ${spheres.map(sphere => `
+                    <div class="mb-8">
+                        <h2 class="font-display text-2xl text-[#B87333] border-b border-[#E8E0D4] pb-2 mb-4">${sphereLabels[sphere]}</h2>
+                        ${data[sphere].map((_, qIdx) => {
+                            const key = `${sphere}_${qIdx}`;
+                            const qData = selectedAnswers[key];
+                            if (!qData) return '';
+                            const answerClass = qData.answer === 'Ниже нормы' ? 'indicator-below' : (qData.answer === 'В норме' ? 'indicator-normal' : 'indicator-above');
+                            return `
+                                <div class="survey-card p-4 mb-4">
+                                    <p class="font-medium text-[#1C1917]">${escapeHtml(qData.question)}</p>
+                                    <div class="selected-answer mt-2">
+                                        <span class="annotation">Выбранный ответ:</span> 
+                                        <span class="${answerClass} ml-2">${qData.answer}</span>
+                                    </div>
                                 </div>
-                                <h3 class="font-display text-xl mb-1">${period.label}</h3>
-                                <p class="text-sm text-[#8B7355]">Нажмите, чтобы пройти диагностику по 6 сферам развития</p>
-                                ${hasResult ? `<div class="mt-3 pt-3 border-t border-[#E8E0D4] text-xs font-mono text-[#B87333]">Заполнено: ${hasResult.date || '—'}</div>` : ''}
-                            </div>
-                        </div>
-                        <div class="timeline-node w-12 h-12 rounded-full bg-[#FDF8F0] border-2 border-[#B87333] flex items-center justify-center z-10 ${hasResult ? 'active' : ''}" onclick="openSurvey('${period.id}')">
-                            <span class="font-display text-sm">${idx + 1}</span>
-                        </div>
-                        <div class="flex-1"></div>
+                            `;
+                        }).join('')}
                     </div>
-                `;
-            }).join('');
-        }
-
-        // ==================== SURVEY MODAL ====================
-        function openSurvey(periodId) {
-            currentSurveyPeriod = periodId;
-            const period = agePeriods.find(p => p.id === periodId);
-            const data = surveyData[periodId];
-            const saved = surveyResults[periodId]?.answers || {};
-
-            document.getElementById('survey-title').textContent = `${period.label}: Диагностический опрос`;
-
-            let html = `<div class="space-y-8">`;
-
-            spheres.forEach(sphere => {
-                const questions = data[sphere];
-                html += `
-                    <div class="border-t border-[#E8E0D4] pt-6">
-                        <h4 class="font-display text-xl mb-4 text-[#B87333] flex items-center gap-2">
-                            <span class="w-8 h-8 rounded-full bg-[#B87333]/10 flex items-center justify-center text-sm">${sphereLabels[sphere][0]}</span>
-                            ${sphereLabels[sphere]}
-                        </h4>
-                        <div class="space-y-4">
-                `;
-
-                questions.forEach((q, qIdx) => {
-                    const key = `${sphere}_${qIdx}`;
-                    const checked = saved[key] || {};
-                    html += `
-                        <div class="survey-card p-5">
-                            <p class="mb-3 font-medium text-[#44403C]">${q}</p>
-                            <div class="flex flex-wrap gap-4">
-                                <label class="flex items-center gap-2 cursor-pointer text-sm">
-                                    <input type="radio" name="${key}" value="below" class="custom-checkbox" ${checked.val === 'below' ? 'checked' : ''}>
-                                    <span class="indicator-below px-2 py-1 rounded">Ниже нормы</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer text-sm">
-                                    <input type="radio" name="${key}" value="normal" class="custom-checkbox" ${checked.val === 'normal' ? 'checked' : ''}>
-                                    <span class="indicator-normal px-2 py-1 rounded">В норме</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer text-sm">
-                                    <input type="radio" name="${key}" value="above" class="custom-checkbox" ${checked.val === 'above' ? 'checked' : ''}>
-                                    <span class="indicator-above px-2 py-1 rounded">Выше нормы</span>
-                                </label>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                html += `</div></div>`;
-            });
-
-            html += `</div>`;
-
-            document.getElementById('survey-content').innerHTML = html;
-            document.getElementById('survey-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSurvey() {
-            document.getElementById('survey-modal').classList.add('hidden');
-            document.body.style.overflow = '';
-            currentSurveyPeriod = null;
-        }
-
-        function saveSurvey() {
-            if (!currentSurveyPeriod) return;
-            const periodId = currentSurveyPeriod;
-            const inputs = document.querySelectorAll('#survey-content input[type="radio"]:checked');
-            const answers = {};
-            let totalQuestions = 0;
-            let answered = 0;
-
-            spheres.forEach(sphere => {
-                surveyData[periodId][sphere].forEach((_, idx) => {
-                    totalQuestions++;
-                    const key = `${sphere}_${idx}`;
-                    const selected = document.querySelector(`input[name="${key}"]:checked`);
-                    if (selected) {
-                        answered++;
-                        answers[key] = { val: selected.value, sphere };
-                    }
-                });
-            });
-
-            if (answered < totalQuestions * 0.5) {
-                alert('Пожалуйста, ответьте хотя бы на половину вопросов для достоверного результата.');
-                return;
-            }
-
-            surveyResults[periodId] = {
-                date: new Date().toLocaleDateString('ru-RU'),
-                answers,
-                stats: calculateStats(answers, periodId)
-            };
-
-            localStorage.setItem('montessori_survey', JSON.stringify(surveyResults));
-            document.getElementById('last-updated').textContent = new Date().toLocaleString('ru-RU');
-
-            closeSurvey();
-            renderTimeline();
-            updateDashboard();
-
-            setTimeout(() => {
-                document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-        }
-
-        function calculateStats(answers, periodId) {
-            const stats = {};
-            spheres.forEach(sphere => {
-                const sphereAnswers = Object.values(answers).filter(a => a.sphere === sphere);
-                let score = 0;
-                let max = sphereAnswers.length * 2;
-                sphereAnswers.forEach(a => {
-                    if (a.val === 'below') score += 0;
-                    else if (a.val === 'normal') score += 1;
-                    else if (a.val === 'above') score += 2;
-                });
-                stats[sphere] = { 
-                    percent: max > 0 ? Math.round((score / max) * 100) : 0,
-                    count: sphereAnswers.length,
-                    raw: score,
-                    max
+                `).join('')}
+                <div class="text-center text-[#8B7355] text-sm mt-12">
+                    <p>© Монтессори Книга — архив развития</p>
+                    <p>Документ сформирован автоматически</p>
+                </div>
+            </div>
+            <script>
+                window.onload = () => {
+                    window.print();
+                    setTimeout(() => window.close(), 500);
                 };
-            });
-            return stats;
-        }
+            <\/script>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
 
-        // ==================== DASHBOARD & CHART ====================
-        function initRadarChartOnce() {
-            const canvas = document.getElementById('radarChart');
-            if (!canvas) return;
-
-            const ctx = canvas.getContext('2d');
-
-            radarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: Object.values(sphereLabels),
-                    datasets: [{
-                        label: 'Текущие показатели',
-                        data: [0, 0, 0, 0, 0, 0],
-                        backgroundColor: 'rgba(184, 115, 51, 0.15)',
-                        borderColor: '#B87333',
-                        pointBackgroundColor: '#B87333',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#B87333',
-                        borderWidth: 2,
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 800,
-                        easing: 'easeOutQuart'
-                    },
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                stepSize: 20,
-                                font: { family: 'IBM Plex Mono', size: 10 },
-                                color: '#8B7355'
-                            },
-                            grid: {
-                                color: 'rgba(232, 224, 212, 0.5)'
-                            },
-                            angleLines: {
-                                color: 'rgba(232, 224, 212, 0.5)'
-                            },
-                            pointLabels: {
-                                font: { family: 'Playfair Display', size: 12 },
-                                color: '#44403C'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                font: { family: 'IBM Plex Mono', size: 11 },
-                                color: '#44403C'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateChartData(data) {
-            if (!radarChart) return;
-            radarChart.data.datasets[0].data = data;
-            radarChart.update('active');
-        }
-
-        function updateDashboard() {
-            const periods = Object.keys(surveyResults);
-
-            // Default zeros
-            let data = [0, 0, 0, 0, 0, 0];
-            let latestStats = null;
-
-            if (periods.length > 0) {
-                const latest = surveyResults[periods[periods.length - 1]];
-                data = spheres.map(s => latest.stats[s]?.percent || 0);
-                latestStats = latest.stats;
-            }
-
-            // Update summary cards
-            spheres.forEach((sphere, idx) => {
-                const percent = data[idx];
-                const el = document.getElementById(`dash-${sphere}`);
-                const statusEl = document.getElementById(`dash-${sphere}-status`);
-                if (el) el.textContent = percent + '%';
-                if (statusEl) {
-                    let status = 'Норма';
-                    let cls = 'indicator-normal px-2 py-1 rounded text-xs inline-block mt-1';
-                    if (percent < 40) { status = 'Ниже нормы'; cls = 'indicator-below px-2 py-1 rounded text-xs inline-block mt-1'; }
-                    else if (percent > 75) { status = 'Выше нормы'; cls = 'indicator-above px-2 py-1 rounded text-xs inline-block mt-1'; }
-                    statusEl.innerHTML = `<span class="${cls}">${status}</span>`;
-                }
-            });
-
-            // Update chart safely
-            updateChartData(data);
-
-            // Update recommendations
-            if (latestStats) {
-                updateRecommendations(latestStats);
-            }
-
-            // Update table
-            updateTable();
-        }
-
-        function updateRecommendations(stats) {
-            const container = document.getElementById('recommendations-list');
-            const recs = [];
-
-            if (stats.motor?.percent < 40) recs.push('<strong>Моторика:</strong> Увеличьте время tummy time, используйте подвесные игрушки для захвата, массаж.');
-            if (stats.motor?.percent > 75) recs.push('<strong>Моторика:</strong> Ребёнок показывает отличные результаты. Предложите более сложные материалы: шнуровки, мозаики.');
-
-            if (stats.sensory?.percent < 40) recs.push('<strong>Сенсорика:</strong> Используйте сенсорные коробки, материалы разной текстуры, звуковые ящики.');
-            if (stats.sensory?.percent > 75) recs.push('<strong>Сенсорика:</strong> Развивайте тонкое дифференцирование: оттенки цвета, температурные контрасты.');
-
-            if (stats.speech?.percent < 40) recs.push('<strong>Речь:</strong> Читайте книги с картинками, пойте песенки, используйте палец как указатель при чтении.');
-            if (stats.speech?.percent > 75) recs.push('<strong>Речь:</strong> Вводите новые слова, задавайте вопросы, поощряйте рассказывание.');
-
-            if (stats.cognitive?.percent < 40) recs.push('<strong>Познание:</strong> Используйте сортировщики, простые пазлы, игры на причинно-следственные связи.');
-            if (stats.cognitive?.percent > 75) recs.push('<strong>Познание:</strong> Предложите счётный материал, буквы, классификацию по нескольким признакам.');
-
-            if (stats.social?.percent < 40) recs.push('<strong>Социальность:</strong> Больше времени проводите с другими детьми, играйте в «лапту», обсуждайте эмоции.');
-            if (stats.social?.percent > 75) recs.push('<strong>Социальность:</strong> Организуйте кооперативные игры, обсуждайте правила и роли.');
-
-            if (stats.selfcare?.percent < 40) recs.push('<strong>Самообслуживание:</strong> Используйте адаптированную посуду, стульчик-подставку, одежду с крупными застёжками.');
-            if (stats.selfcare?.percent > 75) recs.push('<strong>Самообслуживание:</strong> Доверяйте самостоятельное мытьё рук, уборку игрушек, помощь по дому.');
-
-            container.innerHTML = recs.length > 0 ? recs.map(r => `<div class="p-3 bg-[#FDF8F0] border-l-2 border-[#B87333] text-[#44403C]">${r}</div>`).join('') : '<div class="text-[#8B7355] italic">Все показатели в норме. Продолжайте текущую программу.</div>';
-        }
-
-        function updateTable() {
-            const tbody = document.getElementById('dashboard-table-body');
-            const rows = agePeriods.map(period => {
-                const result = surveyResults[period.id];
-                if (!result) return '';
-
-                const cells = spheres.map(s => {
-                    const p = result.stats[s]?.percent || 0;
-                    let color = 'text-[#5A8F6E]';
-                    if (p < 40) color = 'text-[#B85450]';
-                    else if (p > 75) color = 'text-[#B87333]';
-                    return `<td class="px-6 py-3 text-center ${color} font-mono">${p}%</td>`;
-                }).join('');
-
-                const total = Math.round(spheres.reduce((sum, s) => sum + (result.stats[s]?.percent || 0), 0) / 6);
-
-                return `
-                    <tr class="border-b border-[#E8E0D4] hover:bg-[#F5F0E6] transition-colors">
-                        <td class="px-6 py-3 font-medium">${period.label}</td>
-                        ${cells}
-                        <td class="px-6 py-3 text-center font-display text-[#B87333]">${total}%</td>
-                    </tr>
-                `;
-            }).filter(Boolean).join('');
-
-            tbody.innerHTML = rows || '<tr><td colspan="8" class="px-6 py-8 text-center text-[#8B7355] italic">Нет данных. Заполните опросы в разделе «Архив развития».</td></tr>';
-        }
-
-        // ==================== LOGORHYTHMICS ====================
-        function showLogDoc(n) {
-            [1,2,3].forEach(i => {
-                document.getElementById(`log-doc${i}`).classList.toggle('hidden', i !== n);
-                const tab = document.getElementById(`tab-doc${i}`);
-                if (i === n) {
-                    tab.classList.add('bg-[#B87333]', 'text-white', 'border-[#B87333]');
-                    tab.classList.remove('text-[#44403C]', 'border-[#E8E0D4]');
-                } else {
-                    tab.classList.remove('bg-[#B87333]', 'text-white', 'border-[#B87333]');
-                    tab.classList.add('text-[#44403C]', 'border-[#E8E0D4]');
-                }
-            });
-        }
-
-        function printLogDoc() {
-            // Find which document is currently visible
-            let activeDoc = 1;
-            [1,2,3].forEach(i => {
-                if (!document.getElementById(`log-doc${i}`).classList.contains('hidden')) {
-                    activeDoc = i;
-                }
-            });
-
-            const docTitles = {
-                1: 'Входная диагностика: логоритмические навыки ребенка',
-                2: 'Промежуточный опрос: динамика занятий логоритмикой',
-                3: 'Анализ эффективности логоритмического курса'
-            };
-
-            const printWindow = window.open('', '_blank');
-            const docContent = document.getElementById(`log-doc${activeDoc}`).innerHTML;
-
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="ru">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>${docTitles[activeDoc]} — Монтессори Книга</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-                    <style>
-                        body {
-                            font-family: 'Cormorant Garamond', Georgia, serif;
-                            background: #FDF8F0;
-                            color: #1C1917;
-                            padding: 40px;
-                            max-width: 800px;
-                            margin: 0 auto;
-                        }
-                        .font-display { font-family: 'Playfair Display', serif; }
-                        .font-mono { font-family: 'IBM Plex Mono', monospace; }
-                        .annotation {
-                            font-family: 'IBM Plex Mono', monospace;
-                            font-size: 0.7rem;
-                            color: #8B7355;
-                            text-transform: uppercase;
-                            letter-spacing: 0.1em;
-                        }
-                        h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
-                        .survey-card {
-                            background: #F5F0E6;
-                            border: 1px solid #E8E0D4;
-                            padding: 16px;
-                            margin-bottom: 12px;
-                            border-radius: 4px;
-                        }
-                        input[type="text"], input[type="date"], input[type="number"], select, textarea {
-                            border: 1px solid #E8E0D4;
-                            background: #F5F0E6;
-                            padding: 8px;
-                            font-family: 'Cormorant Garamond', serif;
-                        }
-                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                        th, td { border: 1px solid #E8E0D4; padding: 8px; text-align: left; }
-                        th { background: #F5F0E6; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; }
-                        .no-print { display: none !important; }
-                        .text-bronze { color: #B87333; }
-                        .text-\#8B7355 { color: #8B7355; }
-                        .text-\#44403C { color: #44403C; }
-                        .border-b { border-bottom: 1px solid #E8E0D4; }
-                        .pb-8 { padding-bottom: 32px; }
-                        .mb-8 { margin-bottom: 32px; }
-                        .mb-4 { margin-bottom: 16px; }
-                        .mb-2 { margin-bottom: 8px; }
-                        .mb-3 { margin-bottom: 12px; }
-                        .mt-8 { margin-top: 32px; }
-                        .mt-3 { margin-top: 12px; }
-                        .mt-1 { margin-top: 4px; }
-                        .mt-2 { margin-top: 8px; }
-                        .p-6 { padding: 24px; }
-                        .p-4 { padding: 16px; }
-                        .p-5 { padding: 20px; }
-                        .px-4 { padding-left: 16px; padding-right: 16px; }
-                        .py-2 { padding-top: 8px; padding-bottom: 8px; }
-                        .py-3 { padding-top: 12px; padding-bottom: 12px; }
-                        .px-6 { padding-left: 24px; padding-right: 24px; }
-                        .py-4 { padding-top: 16px; padding-bottom: 16px; }
-                        .grid { display: grid; }
-                        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-                        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-                        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-                        .gap-6 { gap: 24px; }
-                        .gap-4 { gap: 16px; }
-                        .gap-2 { gap: 8px; }
-                        .gap-3 { gap: 12px; }
-                        .flex { display: flex; }
-                        .items-center { align-items: center; }
-                        .justify-center { justify-content: center; }
-                        .justify-between { justify-content: space-between; }
-                        .text-center { text-align: center; }
-                        .text-right { text-align: right; }
-                        .text-left { text-align: left; }
-                        .text-sm { font-size: 0.875rem; }
-                        .text-xs { font-size: 0.75rem; }
-                        .text-xl { font-size: 1.25rem; }
-                        .text-2xl { font-size: 1.5rem; }
-                        .text-3xl { font-size: 1.875rem; }
-                        .font-medium { font-weight: 500; }
-                        .font-light { font-weight: 300; }
-                        .italic { font-style: italic; }
-                        .uppercase { text-transform: uppercase; }
-                        .tracking-wider { letter-spacing: 0.05em; }
-                        .tracking-widest { letter-spacing: 0.1em; }
-                        .w-full { width: 100%; }
-                        .h-24 { height: 96px; }
-                        .rounded-sm { border-radius: 2px; }
-                        .bg-\#F5F0E6 { background-color: #F5F0E6; }
-                        .bg-\#FDF8F0 { background-color: #FDF8F0; }
-                        .border { border-width: 1px; }
-                        .border-\#E8E0D4 { border-color: #E8E0D4; }
-                        .border-\#B87333 { border-color: #B87333; }
-                        .border-t { border-top-width: 1px; }
-                        .border-b { border-bottom-width: 1px; }
-                        .border-l-2 { border-left-width: 2px; }
-                        .block { display: block; }
-                        .inline-block { display: inline-block; }
-                        .space-y-2 > * + * { margin-top: 8px; }
-                        .space-y-4 > * + * { margin-top: 16px; }
-                        .space-y-6 > * + * { margin-top: 24px; }
-                        .space-y-8 > * + * { margin-top: 32px; }
-                        .space-y-3 > * + * { margin-top: 12px; }
-                        .overflow-hidden { overflow: hidden; }
-                        .overflow-x-auto { overflow-x: auto; }
-                        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-                        .cursor-pointer { cursor: pointer; }
-                        .hidden { display: none; }
-                        @media print {
-                            body { background: white; padding: 20px; }
-                            .survey-card { break-inside: avoid; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #E8E0D4; padding-bottom: 20px;">
-                        <div class="annotation" style="margin-bottom: 8px;">Монтессори Книга • Ирина Сергеевна Кичигина</div>
-                        <h1 class="font-display" style="font-size: 1.75rem; color: #B87333; margin-bottom: 8px;">Анкета по логоритмике</h1>
-                        <div style="font-size: 1.1rem; color: #44403C;">${docTitles[activeDoc]}</div>
-                        <div style="font-size: 0.8rem; color: #8B7355; margin-top: 8px;">Дата печати: ${new Date().toLocaleDateString('ru-RU')}</div>
-                    </div>
-                    ${docContent}
-                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #E8E0D4; text-align: center; font-size: 0.8rem; color: #8B7355;">
-                        <div>Ирина Сергеевна Кичигина • Педагог Монтессори 0–3 года • Логоритмика</div>
-                        <div style="margin-top: 4px;">© 2024 • Коллекционное издание</div>
-                    </div>
-                    <script>
-                        window.onload = function() { window.print(); };
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-
-        function printLogDoc() {
-            // Find which document is currently visible
-            let activeDoc = 1;
-            [1,2,3].forEach(i => {
-                if (!document.getElementById(`log-doc${i}`).classList.contains('hidden')) {
-                    activeDoc = i;
-                }
-            });
-
-            const docTitles = {
-                1: 'Входная диагностика: логоритмические навыки ребенка',
-                2: 'Промежуточный опрос: динамика занятий логоритмикой',
-                3: 'Анализ эффективности логоритмического курса'
-            };
-
-            const printWindow = window.open('', '_blank');
-            const docContent = document.getElementById(`log-doc${activeDoc}`).innerHTML;
-
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="ru">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>${docTitles[activeDoc]} — Монтессори Книга</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-                    <style>
-                        body {
-                            font-family: 'Cormorant Garamond', Georgia, serif;
-                            background: #FDF8F0;
-                            color: #1C1917;
-                            padding: 40px;
-                            max-width: 800px;
-                            margin: 0 auto;
-                        }
-                        .font-display { font-family: 'Playfair Display', serif; }
-                        .font-mono { font-family: 'IBM Plex Mono', monospace; }
-                        .annotation {
-                            font-family: 'IBM Plex Mono', monospace;
-                            font-size: 0.7rem;
-                            color: #8B7355;
-                            text-transform: uppercase;
-                            letter-spacing: 0.1em;
-                        }
-                        h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
-                        .survey-card {
-                            background: #F5F0E6;
-                            border: 1px solid #E8E0D4;
-                            padding: 16px;
-                            margin-bottom: 12px;
-                            border-radius: 4px;
-                        }
-                        input[type="text"], input[type="date"], input[type="number"], select, textarea {
-                            border: 1px solid #E8E0D4;
-                            background: #F5F0E6;
-                            padding: 8px;
-                            font-family: 'Cormorant Garamond', serif;
-                        }
-                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                        th, td { border: 1px solid #E8E0D4; padding: 8px; text-align: left; }
-                        th { background: #F5F0E6; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; text-transform: uppercase; }
-                        .no-print { display: none !important; }
-                        .text-bronze { color: #B87333; }
-                        .text-[\#8B7355] { color: #8B7355; }
-                        .text-[\#44403C] { color: #44403C; }
-                        .border-b { border-bottom: 1px solid #E8E0D4; }
-                        .pb-8 { padding-bottom: 32px; }
-                        .mb-8 { margin-bottom: 32px; }
-                        .mb-4 { margin-bottom: 16px; }
-                        .mb-2 { margin-bottom: 8px; }
-                        .mb-3 { margin-bottom: 12px; }
-                        .mt-8 { margin-top: 32px; }
-                        .mt-3 { margin-top: 12px; }
-                        .mt-1 { margin-top: 4px; }
-                        .mt-2 { margin-top: 8px; }
-                        .p-6 { padding: 24px; }
-                        .p-4 { padding: 16px; }
-                        .p-5 { padding: 20px; }
-                        .px-4 { padding-left: 16px; padding-right: 16px; }
-                        .py-2 { padding-top: 8px; padding-bottom: 8px; }
-                        .py-3 { padding-top: 12px; padding-bottom: 12px; }
-                        .px-6 { padding-left: 24px; padding-right: 24px; }
-                        .py-4 { padding-top: 16px; padding-bottom: 16px; }
-                        .grid { display: grid; }
-                        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-                        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-                        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-                        .gap-6 { gap: 24px; }
-                        .gap-4 { gap: 16px; }
-                        .gap-2 { gap: 8px; }
-                        .gap-3 { gap: 12px; }
-                        .flex { display: flex; }
-                        .items-center { align-items: center; }
-                        .justify-center { justify-content: center; }
-                        .justify-between { justify-content: space-between; }
-                        .text-center { text-align: center; }
-                        .text-right { text-align: right; }
-                        .text-left { text-align: left; }
-                        .text-sm { font-size: 0.875rem; }
-                        .text-xs { font-size: 0.75rem; }
-                        .text-xl { font-size: 1.25rem; }
-                        .text-2xl { font-size: 1.5rem; }
-
-                        .text-3xl { font-size: 1.875rem; }
-                        .font-medium { font-weight: 500; }
-                        .font-light { font-weight: 300; }
-                        .italic { font-style: italic; }
-                        .uppercase { text-transform: uppercase; }
-                        .tracking-wider { letter-spacing: 0.05em; }
-                        .tracking-widest { letter-spacing: 0.1em; }
-                        .w-full { width: 100%; }
-                        .h-24 { height: 96px; }
-                        .rounded-sm { border-radius: 2px; }
-                        .bg-[\#F5F0E6] { background-color: #F5F0E6; }
-                        .bg-[\#FDF8F0] { background-color: #FDF8F0; }
-                        .border { border-width: 1px; }
-                        .border-[\#E8E0D4] { border-color: #E8E0D4; }
-                        .border-[\#B87333] { border-color: #B87333; }
-                        .border-t { border-top-width: 1px; }
-                        .border-b { border-bottom-width: 1px; }
-                        .border-l-2 { border-left-width: 2px; }
-                        .block { display: block; }
-                        .inline-block { display: inline-block; }
-                        .space-y-2 > * + * { margin-top: 8px; }
-                        .space-y-4 > * + * { margin-top: 16px; }
-                        .space-y-6 > * + * { margin-top: 24px; }
-                        .space-y-8 > * + * { margin-top: 32px; }
-                        .space-y-3 > * + * { margin-top: 12px; }
-                        .overflow-hidden { overflow: hidden; }
-                        .overflow-x-auto { overflow-x: auto; }
-                        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-                        .cursor-pointer { cursor: pointer; }
-                        .hidden { display: none; }
-                        @media print {
-                            body { background: white; padding: 20px; }
-                            .survey-card { break-inside: avoid; }
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #E8E0D4; padding-bottom: 20px;">
-                        <div class="annotation" style="margin-bottom: 8px;">Монтессори Книга • Ирина Сергеевна Кичигина</div>
-                        <h1 class="font-display" style="font-size: 1.75rem; color: #B87333; margin-bottom: 8px;">Анкета по логоритмике</h1>
-                        <div style="font-size: 1.1rem; color: #44403C;">${docTitles[activeDoc]}</div>
-                        <div style="font-size: 0.8rem; color: #8B7355; margin-top: 8px;">Дата печати: ${new Date().toLocaleDateString('ru-RU')}</div>
-                    </div>
-                    ${docContent}
-                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #E8E0D4; text-align: center; font-size: 0.8rem; color: #8B7355;">
-                        <div>Ирина Сергеевна Кичигина • Педагог Монтессори 0–3 года • Логоритмика</div>
-                        <div style="margin-top: 4px;">© 2024 • Коллекционное издание</div>
-                    </div>
-                    <script>
-                        window.onload = function() { window.print(); };
-                    <\/script>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-        }
-
-        function initLog3Table() {
-            const tbody = document.getElementById('log3-table-body');
-            tbody.innerHTML = log3Questions.map((q, idx) => `
-                <tr class="border-b border-[#E8E0D4]">
-                    <td class="px-4 py-3 font-mono text-[#8B7355]">${idx + 1}</td>
-                    <td class="px-4 py-3">${q}</td>
-                    <td class="px-4 py-3 text-center"><input type="radio" name="log3_q${idx}" value="2" class="custom-checkbox"></td>
-                    <td class="px-4 py-3 text-center"><input type="radio" name="log3_q${idx}" value="1" class="custom-checkbox"></td>
-                    <td class="px-4 py-3 text-center"><input type="radio" name="log3_q${idx}" value="0" class="custom-checkbox"></td>
-                </tr>
-            `).join('');
-        }
-
-        function calculateLog1() {
-            const fields = ['a1','a2','a3','b1','b2','c1','c2'];
-            let total = 0;
-            let max = 14;
-
-            fields.forEach(f => {
-                const selected = document.querySelector(`input[name="log1_${f}"]:checked`);
-                if (selected) total += parseInt(selected.value);
-            });
-
-            const percent = Math.round((total / max) * 100);
-            let text = '';
-            if (percent >= 80) text = `Высокий уровень (${percent}%) — ребёнок готов к занятиям`;
-            else if (percent >= 50) text = `Средний уровень (${percent}%) — рекомендуется адаптационный период`;
-            else text = `Начальный уровень (${percent}%) — требуется индивидуальная программа`;
-
-            document.getElementById('log1-result').textContent = text;
-        }
-
-        function calculateLog2() {
-            const fields = ['1','2','3','4','5'];
-            let total = 0;
-            let max = 11;
-
-            fields.forEach(f => {
-                const selected = document.querySelector(`input[name="log2_${f}"]:checked`);
-                if (selected) total += parseInt(selected.value);
-            });
-
-            const posChecks = document.querySelectorAll('input[name="log2_pos"]:checked');
-            total += posChecks.length;
-            max += 4;
-
-            const rate = document.querySelector('input[name="log2_rate"]:checked');
-            if (rate) total += parseInt(rate.value);
-            max += 5;
-
-            const percent = Math.round((total / max) * 100);
-            let text = '';
-            if (percent >= 75) text = `Отличная динамика (${percent}%) — прогресс значительный`;
-            else if (percent >= 50) text = `Умеренная динамика (${percent}%) — прогресс есть, продолжаем`;
-            else text = `Медленная динамика (${percent}%) — корректировка программы`;
-
-            document.getElementById('log2-result').textContent = text;
-        }
-
-        function calculateLog3() {
-            let total = 0;
-            let max = 16;
-
-            log3Questions.forEach((_, idx) => {
-                const selected = document.querySelector(`input[name="log3_q${idx}"]:checked`);
-                if (selected) total += parseInt(selected.value);
-            });
-
-            const sat = document.querySelector('input[name="log3_sat"]:checked');
-            const rec = document.querySelector('input[name="log3_rec"]:checked');
-            if (sat) total += parseInt(sat.value);
-            if (rec) total += parseInt(rec.value);
-            max += 6;
-
-            const percent = Math.round((total / max) * 100);
-            let text = '';
-            if (percent >= 80) text = `Высокая эффективность (${percent}%)`;
-            else if (percent >= 60) text = `Хорошая эффективность (${percent}%)`;
-            else if (percent >= 40) text = `Удовлетворительная эффективность (${percent}%)`;
-            else text = `Требуется пересмотр программы (${percent}%)`;
-
-            document.getElementById('log3-result').textContent = text;
-        }
-
-        // ==================== EXPORT ====================
-        function exportToCSV() {
-            let csv = 'Период,Дата,Моторика,Сенсорика,Речь,Познание,Социальность,Самообслуживание\n';
-
-            agePeriods.forEach(period => {
-                const result = surveyResults[period.id];
-                if (result) {
-                    const row = [
-                        period.label,
-                        result.date,
-                        result.stats.motor?.percent || 0,
-                        result.stats.sensory?.percent || 0,
-                        result.stats.speech?.percent || 0,
-                        result.stats.cognitive?.percent || 0,
-                        result.stats.social?.percent || 0,
-                        result.stats.selfcare?.percent || 0
-                    ];
-                    csv += row.join(',') + '\n';
-                }
-            });
-
-            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'монтессори_дашборд.csv';
-            link.click();
-        }
-
-        function clearAllData() {
-            if (confirm('Удалить все сохранённые данные опросов?')) {
-                surveyResults = {};
-                localStorage.removeItem('montessori_survey');
-                renderTimeline();
-                updateDashboard();
-            }
-        }
-    </script>
+// Вспомогательная функция для экранирования HTML (чтобы не сломать верстку)
+function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+</script>
 </body>
 </html>
